@@ -8,32 +8,82 @@
   changes! ([skip to the changes](#breaking-changes))
 
 - It's much faster and more memory efficient. We've seen `truffle test`
-  execution times for real world repositories decrease by more than 250%. CLI
+  execution times for real world repositories decrease by more than 250%. <acronym title="Command Line Interface">CLI</acronym?>
   initialization is ~300% faster.
 
 - The `ganache-core` and `ganache-cli` packages you know and love have been
-  (almost¹) completely rewritten from the ground up in TypeScript
+  (almost¹) completely rewritten from the ground up in TypeScript.
 
 - The `ganache-core` and `ganache-cli` npm packages have been merged into a
-  single `ganache` package. We’ll continue to publish to the old core and cli npm packages for the time being, but you’ll want to switch over to the new [`ganache` npm package](https://www.npmjs.com/package/ganache) soon, or you’ll start seeing a deprecation notice upon installation.
+  single `ganache` package. We’ll continue to publish to the old core and cli
+  npm packages for the time being, but you’ll want to switch over to the new
+  [`ganache` npm package](https://www.npmjs.com/package/ganache) soon, or
+  you’ll start seeing a deprecation notice upon installation.
 
 - The `ganache-core` and `ganache-cli` GitHub repositories have been merged
   together and moved to [`ganache`](https://github.com/trufflesuite/ganache).
   Head over to the new repo and show it some love by smashing that ⭐ button!
 
-- For the last year ganache has been maintained by one person
-  ([me](https://github.com/davidmurdoch)). But no more! We welcomed [Micaiah Reid](https://github.com/MicaiahReid), formerly of Lockheed Martin, to the team in May! Go give him a follow!
+- For the last year Ganache has been maintained by one person
+  ([me](https://github.com/davidmurdoch)). But no more! We welcomed
+  [Micaiah Reid](https://github.com/MicaiahReid), formerly of Lockheed Martin,
+  to the team in May! Go give him a follow!
 
-- Speaking of new team members… we’re hiring](https://consensys.net/open-roles/?discipline=32535/)!
-  We’ve got tons of exciting work planned for the future of Ethereum developer tools. Come work with us on making Ethereum more accessible to more developers! Don’t know which positions to apply to? Feel free to reach out to anyone from our [team](https://www.trufflesuite.com/staff) to inquire more about working here at Truffle!
+- Speaking of new team members… [we’re hiring](https://consensys.net/open-roles/?discipline=32535/)!
+  We’ve got tons of exciting work planned for the future of Ethereum developer
+  tools. Come work with us on making Ethereum more accessible to more
+  developers! Don’t know which positions to apply to? Feel free to reach out to
+  anyone from our [team](https://www.trufflesuite.com/staff) to inquire more
+  about working here at Truffle!
 
 ## Breaking Changes
 
+{something about how the important big changes are first}
+
 ### The big ones
 
-- Transactions hashes are now returned _before_ the transaction is “mined”.
+#### We've renamed our NPM packages
 
-Previously ganache would allow this:
+We've renamed `ganache-cli` and `ganache-core` to `ganache`. You'll need to
+uninstall the old version before installing the new.
+
+For a global installation uninstall `ganache-cli` before installing
+`ganache`:
+
+```console
+$ npm uninstall ganache-cli --global
+$ npm install ganache@alpha --global
+```
+
+For a local installation of `ganache-cli` and/or `ganache-core`:
+
+```console
+$ npm uninstall ganache-core ganache-cli
+$ npm install ganache@alpha
+```
+
+You can now use the new `ganache` (without the `-cli` suffix):
+
+```console
+$ ganache
+```
+
+in your `package.json` scripts:
+
+```json
+{
+  "scripts": {
+    "start-ganache": "ganache"
+  }
+}
+```
+
+_Note :we've aliased `ganache-cli` to `ganache`, so you can continue using the
+`ganache-cli` command in your npm scripts and in your terminal._
+
+#### Transaction hashes are now returned _before_ the transaction receipt is available.
+
+Previously, Ganache would allow this:
 
 ```javascript
 const txHash = await provider.send("eth_sendTransaction", [transaction]);
@@ -41,19 +91,20 @@ const receipt = await provider.send("eth_getTransactionReceipt", [txHash]);
 assert.notStrictEqual(receipt, null);
 ```
 
-But this behavior is just not how Ethereum nodes behave in the real world, as
-transactions take time to be mined after being accepted by the node. If you use
-Ethereum libraries like [web3.js](https://github.com/ChainSafe/web3.js) and
-[ethers](https://github.com/ethers-io/ethers.js/) you shouldn't have to worry
-about this change, as these libraries already handle the receipt fetching for
-you. But you have test code that behaves like the above you'll need to make some
-changes.
+The problem is that this behavior is not representative of how Ethereum nodes
+behave in the real world; transactions take time to be mined after being
+accepted by the node. If you're already using Ethereum libraries like
+[web3.js](https://github.com/ChainSafe/web3.js) or [ethers.js](https://github.com/ethers-io/ethers.js/)
+you shouldn't have to worry about this change, as these libraries already handle
+the transaction lifecycle for you.
 
-The easy, but not recommended way is to enable `legacyInstamine` mode in
-your options:
+If you have test code similar to the above you'll need to make some changes.
+
+The easy, _but not recommended way_ is to enable `legacyInstamine` mode in
+your start up options:
 
 ```console
-> $ ganache --miner.legacyInstamine true
+$ ganache --miner.legacyInstamine true
 ```
 
 or
@@ -62,16 +113,122 @@ or
 const provider = Ganache.provider({ miner: { legacyInstamine: true } });
 ```
 
-The `legacyInstamine` mode restores the old behavior, causing transaction hashes
-to be returned _after_ the transaction results are persisted in the database.
+Enabling `legacyInstamine` mode restores the old behavior, causing transaction
+hashes to be returned _after_ the transaction results are persisted in the
+database.
 
-- VM Errors on RPC Response (`noVMErrorsOnRPCResponse`/`vMErrorsOnRPCResponse` options) are no longer returned by default
-  This
+The problem with this fix is that you will be unable to reliably run your code
+against real Ethereum nodes if the need arises. We've seen this issue arise
+over and over once developers switch from testing with Ganache to a testnet or
+Mainnet.
 
-- Ganache's `provider` and `server` internals are no longer exposed via its properties. This means you can’t manipulate the `vm` directly anymore. We’re already planning on exposing many of the vm events that other tools rely on (like `”step”`), but we need further feedback on other internals that will be missed. [Open a new issue]() if you relied on internals and need us to build public methods
-- remove support for Node v8.x
+A better way is to update your code so that it will behave no matter how long it
+takes for your transaction receipt to be available. To do that you'll either
+need to use Ethereum subscriptions or HTTP polling.
 
-  - The underlying state trie is now computed properly; hashes and stateRoots will differ (fixes #664)
+Here's a somewhat robust example of how to wait for a transaction receipt in
+JavaScript with an [EIP-1193 provider](https://eips.ethereum.org/EIPS/eip-1193)
+(like your browser wallet's `window.ethereum`) connected via WebSockets:
+
+```javascript
+const send = (method, params) => provider.request({ method, params });
+
+const sendRawTransaction = async (provider, rawTransaction) => {
+  // first we need to subscribe to all new blocks
+  const subId = await send("eth_subscribe", ["newHeads"]);
+  try {
+    // send the raw transaction
+    const txHash = await send("eth_sendRawTransaction", [rawTransaction]);
+    // wait for the receipt
+    const receipt = await new Promise(resolve => {
+      // wait for new messages
+      provider.on("message", async ({ type, data }) => {
+        // wait for our specific subscription
+        if (type !== "eth_subscription" || data.subscription !== subId) return;
+
+        // return our receipt if it is available
+        const receipt = await send("eth_getTransactionReceipt", [txHash]);
+        if (receipt === null) return;
+
+        resolve(receipt);
+      });
+    });
+  } finally {
+    // make sure we always unsubscribe
+    await send("eth_unsubscribe", [subId]);
+  }
+  return receipt;
+};
+```
+
+I know... this is a lot of code for something that used to be so simple! Which
+is why we've added a small helper for the simplest cases:
+
+```javascript
+// setup
+const provider = Ganache.provider();
+const send = (method, params) => provider.request({ method, params });
+// subscribe ONCE when starting ganache
+await send("eth_subscribe", ["newHeads"]);
+
+// ...
+
+const txHash = await send("eth_sendRawTransaction", [transaction]);
+// wait for a single block then continue
+await provider.once("message");
+const receipt = await send("eth_getTransactionReceipt", [txHash]);
+```
+
+`provider.once` is currently non-standard, but can be used in controlled
+environments where you are the only one interacting with the node and are doing
+so sequentially.
+
+#### VM Errors on RPC Response now defaults to disabled
+
+Ganache used to return error messages along side the result for
+`eth_sendTransaction` and `eth_sendRawTransaction` RPC calls by default.
+This is invalid behavior for a node and caused problems with some libraries.
+
+You can still enable this feature, but to do so you'll need to also enable
+`legacyInstamine` mode, as described above:
+
+```console
+$ ganache --miner.legacyInstamine true --miner.vmErrorsOnRPCResponse true
+```
+
+or
+
+```javascript
+const provider = Ganache.provider({
+  miner: {
+    legacyInstamine: true,
+    vmErrorsOnRPCResponse: true
+  }
+});
+```
+
+#### Ganache's `provider` and `server` interface has changed
+
+Ganache's `provider` and `server` internals are no longer leaking. This means
+you can’t manipulate the `vm` directly anymore. We’re already planning on
+exposing many of the vm events that other tools rely on (like `”step”`) before
+launching to stable, but we need further feedback on other internals that will
+be missed. [Open a new issue](https://github.com/trufflesuite/ganache/issues/new)
+if you relied on these removed internals and need us to build in public and
+stable access to them.
+
+### Dropping support for Node v8.x
+
+Hopefully this won't affect any one, as it's been unsupported by Node.js
+for over a year now.
+
+We plan on dropping support for Node v10 soon. Please [file an issue](https://github.com/trufflesuite/ganache/issues)
+if you think you or your team will be unable to upgrade to Node v12 or later by
+October.
+
+#### ......
+
+- The underlying state trie is now computed properly; hashes and stateRoots will differ (fixes #664)
 
 - `Runtime Error:` errors are now "Runtime error:`
 
