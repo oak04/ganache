@@ -8,7 +8,7 @@
   changes! ([skip to the changes](#breaking-changes))
 
 - It's much faster and more memory efficient. We've seen `truffle test`
-  execution times for real world repositories decrease by more than 250%. <acronym title="Command Line Interface">CLI</acronym?>
+  execution times for real world repositories decrease by more than 250%. CLI
   initialization is ~300% faster.
 
 - The `ganache-core` and `ganache-cli` packages you know and love have been
