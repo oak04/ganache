@@ -4,8 +4,9 @@
 
 ## Highlights
 
-- I broke Ganache. On purpose. This is a breaking change release, so you’ll want to pay close attention to these
-  changes! ([skip to the changes](#breaking-changes))
+- I broke Ganache. On purpose. This is a breaking change release, so you’ll want
+  to pay close attention to these changes!
+  ([skip to the changes](#breaking-changes))
 
 - It's much faster and more memory efficient. We've seen `truffle test`
   execution times for real world repositories decrease by more than 250%. CLI
@@ -20,7 +21,8 @@
   [`ganache` npm package](https://www.npmjs.com/package/ganache) soon, or
   you’ll start seeing a deprecation notice upon installation.
 
-- The docker container will be moving to https://hub.docker.com/r/trufflesuite/ganache
+- The docker container will be moving to
+  https://hub.docker.com/r/trufflesuite/ganache
 
 - Ganache now works in the browser and we are working on building interactive
   browser-based documentation. We've built a
@@ -36,12 +38,13 @@
   [Micaiah Reid](https://github.com/MicaiahReid), formerly of Lockheed Martin,
   to the team in May! Go give him a follow!
 
-- Speaking of new team members… [we’re hiring](https://consensys.net/open-roles/?discipline=32535/)!
-  We’ve got tons of exciting work planned for the future of Ethereum developer
-  tools. Come work with us on making Ethereum more accessible to more
-  developers! Don’t know which positions to apply to? Feel free to reach out to
-  anyone from our [team](https://www.trufflesuite.com/staff) to inquire more
-  about working here at Truffle!
+- Speaking of new team members…
+  [we’re hiring](https://consensys.net/open-roles/?discipline=32535/)! We’ve got
+  tons of exciting work planned for the future of Ethereum developer tools. Come
+  work with us on making Ethereum more accessible to more developers! Don’t know
+  which positions to apply to? Feel free to reach out to anyone from our
+  [team](https://www.trufflesuite.com/staff) to inquire more about working here
+  at Truffle!
 
 ## Breaking Changes
 
@@ -101,9 +104,10 @@ assert.notStrictEqual(receipt, null);
 The problem is that this behavior is not representative of how Ethereum nodes
 behave in the real world; transactions take time to be mined after being
 accepted by the node. If you're already using Ethereum libraries like
-[web3.js](https://github.com/ChainSafe/web3.js) or [ethers.js](https://github.com/ethers-io/ethers.js/)
-you shouldn't have to worry about this change, as these libraries already handle
-the transaction lifecycle for you.
+[web3.js](https://github.com/ChainSafe/web3.js) or
+[ethers.js](https://github.com/ethers-io/ethers.js/) you shouldn't have to worry
+about this change, as these libraries already handle the transaction lifecycle
+for you.
 
 If you have test code similar to the above you'll need to make some changes.
 
@@ -237,9 +241,10 @@ Ganache's `provider` and `server` internals are no longer leaking. This means
 you can’t manipulate the `vm` directly anymore. We’re already planning on
 exposing many of the vm events that other tools rely on (like `”step”`) before
 launching to stable, but we need further feedback on other internals that will
-be missed. [Open a new issue](https://github.com/trufflesuite/ganache/issues/new)
-if you relied on these removed internals and need us to build in public and
-stable access to them.
+be missed.
+[Open a new issue](https://github.com/trufflesuite/ganache/issues/new) if you
+relied on these removed internals and need us to build in public and stable
+access to them.
 
 #### Non-consecutive transaction nonces no longer throw error
 
@@ -271,93 +276,148 @@ transactions.
 Hopefully this won't affect any one, as it's been unsupported by Node.js
 for over a year now.
 
-We plan on dropping support for Node v10 soon. Please [file an issue](https://github.com/trufflesuite/ganache/issues)
-if you think you or your team will be unable to upgrade to Node v12 or later by
-October.
+We plan on dropping support for Node v10 within the next few months. Please
+[file an issue](https://github.com/trufflesuite/ganache/issues) if you think you
+or your team will be unable to upgrade to Node v12 or later by October.
 
-#### ......
+#### Old databases from v2 are not compatible with v3
 
-- The underlying state trie is now computed properly; hashes and stateRoots will differ (fixes #664)
-- `Runtime Error:` errors are now `Runtime error:`
+### Breaking changes but you probably won't notice:
+
 - `web3_clientVersion` now returns `Ganache/v{number/number/number}`
-- change `signer account is locked` error to `authentication needed: password or unlock`
+- `Runtime Error:` errors are now `Runtime error:`
+- change `signer account is locked` error to
+  `authentication needed: password or unlock`
 - change `Exceeds block gas limit` error to `exceeds block gas limit`
-- `chainId` option defaults to `1337`
-- `server.listen` isn't pre-bound to the `server` instance (`server.listen.bind(server)`)
-- `provider.send` isn't pre-bound to the `provider` instance (`provider.listen.bind(provider)`)
-- rename provider.`removeAllListeners` to provider.clearListeners
+- `server.listen` isn't pre-bound to the `server` instance
+  (`server.listen.bind(server)`)
+- `provider.send` isn't pre-bound to the `provider` instance
+  (`provider.listen.bind(provider)`)
 - remove `options.keepAliveTimeout`
-- remove support for BN in provider RPC methods
-- `provider.close` is now `provider.disconnect` and returns promise (no callback argument)
-- return `Cannot wrap a "[a-zA-Z]+" as a json-rpc type` on `evm_revert` error instead of `invalid type` or `false` for invalid snapshot ids
-- require transaction `data` to be valid json-rpc hex-encoded DATA (must start with `0x`)
-- blocks are now filled based on actual transaction gas usage, not by the transactions stated `gas`/`gasLimit`
-- invalid transaction `v` values are no longer allowed
-- change `invalid block number` error to `cannot convert string value "" into type `Quantity`; strings must be hex-encoded and prefixed with "0x".`
-- change `Method {method} not supported` error to `The method {method} does not exist/is not available`
-- return error "header not found" for requests to non-existent blocks
-- `provider.connection.close` is no longer a thing on the web3 provider (NEEDS MORE INFO!)
-- previous versions utf-8 instead of binary over websockets when the request was binary encoded, the encoding is now echoed by default. new flag/option to revert behavior: `wsBinary`
-- change error when subscription requested over http from -32000 to -32004
-- require transaction `value` string to be valid JSON-RPC encoded QUANTITY ("1000" is no longer valid!)
-- replace `provider.options` with `provider.getOptions()`
-- a result is no longer present when an error is returned. fixes #558 (for ganache v3 release only).
-- default `coinbase` (`eth_coinbase` RPC call) is now the `0x0` address (fixes #201)
-- transaction ordering from multiple accounts is now ordered by `gasPrice`
-- old databases from v2 are not compatible with v3
-- `options` now always treat strings that represent numbers as hex strings, not numbers
-- default `gasLimit` is now 12M
-- `sender doesn't have enough funds to send tx` errors are now prefixed with `VM Exception while processing transaction`'`
+- rename provider.`removeAllListeners` to provider.clearListeners
+- `provider.close` is now `provider.disconnect` and returns promise (no callback
+  argument)
+- return `Cannot wrap a "[a-zA-Z]+" as a json-rpc type` on `evm_revert` error
+  instead of `invalid type` or `false` for invalid snapshot ids
+- change invalid string are now error with `cannot convert string value ${value} into type Quantity; strings must be hex-encoded and prefixed with "0x".`
+- change `Method {method} not supported` error to
+  `The method {method} does not exist/is not available`
+- return error `header not found` for requests to non-existent blocks
+- replace mutable `provider.options` with `provider.getOptions()`; `getOptions`
+  now returns a deep clone of the options object
+- default `coinbase` (`eth_coinbase` RPC call) is now the `0x0` address (fixes
+  #201)
+- `sender doesn't have enough funds to send tx` errors are now prefixed with
+  `VM Exception while processing transaction`
 - `logs` subscription events are emitted before `newHeads` events
-- the default amount of Ether for created dev accounts has been increased to 1000
 
-- [Nick Paterno](https://twitter.com/NJPaterno), now at [Staked](https://github.com/Stakedllc/), built our excellent [gas estimation algorithm](https://github.com/trufflesuite/ganache/blob/88822501912ef14c88e4ff1957def79b4845223d/src/chains/ethereum/ethereum/src/helpers/gas-estimator.ts) which required no changes
+### Technically bug fixes, but these might break your tests:
+
+- The underlying state trie is now computed properly; hashes and stateRoots will
+  differ (fixes #664)
+- `chainId` option defaults to `1337` everywhere
+- remove support for BN in provider RPC methods
+- require transaction `data` to be valid json-rpc hex-encoded DATA (must start
+  with `0x`)
+- blocks are now filled based on actual transaction gas usage, not by the
+  transactions stated `gas`/`gasLimit`
+- invalid transaction `v` values are no longer allowed
+- `provider.connection.close` is no longer a thing on the web3 provider (TODO:
+  not sure what's going on here.. need more info)
+- previous versions utf-8 instead of binary over websockets when the request was
+  binary encoded, the encoding is now echoed by default. new flag/option to
+  revert behavior: `wsBinary`
+- change error when subscription requested over http from -32000 to -32004
+- require transaction `value` string to be valid JSON-RPC encoded QUANTITY,
+  e.g., "1000" is no longer valid!
+- a result is no longer present when an error is returned (fixes #558)
+- transaction ordering from multiple accounts is now ordered by `gasPrice`
+- `options` now always treat strings that represent numbers as hex strings, not
+  numbers
+
+# Fixes
+
+- An actual block size is now return in `eth_getBlock*` calls
+- `eth_sign` returns correct signatures (fixes #556)
+- The underlying state trie is now computed properly (fixes #664)
 
 # New features
 
+- Default `gasLimit` is now 12M
+  - note: we've never considered changing the default gasLimit as a semver
+    breaking change, but welcome civil discourse if you disagree.
 - More forking auth options and configuration. See `ganache --help` for details
 - Namespaces for options arguments. See `ganache --help` for the new option
   names. Note:
   - you can still use the "legacy" options
   - let us know if you love or hate the namespaced options
+- `provider.once(message: string) => Promise<unknown>`
+- New option, `miner.defaultTransactionGasLimit` can be set to `"estimate"` to
+  automatically use a gas estimate instead of the default when gas/gasLimit has
+  been omitted from the transaction.
+- `evm_mine` accepts a new param:
+  `options: {timestamp?: number, blocks: number?}`.
+  - If `options.blocks` is given it mines that number of blocks before
+    returning.
+- add `miner.coinbase` option (closed #201)
+- add `evm_setAccountNonce` (closes #589)
+- add `getOptions()` to provider instance
+- add `getInitialAccounts()` to provider instance
+- `evm_increaseTime` now takes either a number or a JSON-RPC hex-encoded
+  QUANTITY value (closes #118)
+- add new flag `wsBinary` (`true`, `false` "auto", defaults to "auto")
+- add support for non-executable pending transactions (skipped nonces)
+- add support for replacement transactions (closes #244 #484)
 
 # Known issues:
 
-- No London support yet. We know, we're waaay behind on this one, this is our
-  top priority.
+- No London support yet. We apologize for being behind on this one. This is our
+  top priority and expect a follow up alpha release within 1 week to add in
+  london and EIP-1559 transaction (type 2) support.
 - Forking is so very slow.
 - Forking's `chainId` shouldn't match the remote chain. We really should use a
   different `chainId` than the remote, but still be able to contexualize past
   transactions with their original `chainId`.
-- Our types aren't properly exported yet.
-- Our docker container isn't published yet
+- Our TypeScript types aren't properly exported yet.
+- Our docker container isn't published yet.
 - We don't return a proper pending block yet.
-- Uncles aren't fully supported when forking
+- Uncles aren't fully supported when forking.
 - Forking may fail in weird and unexpected ways. We need to "error better".
 
 # Future plans:
 
-- London!
-- Document how to use ganache in the browser, and what limits it has.
+- Support for enabling eligible draft EIPs before they are finalized or
+  considered for inclusion in a hardfork.
+- New hardfork support well in advance of the hardfork launch.
+- Add an `eth_createAccessList` method
 - Add in VM events so tools like `solcoverage` will work.
+- Document how to use ganache in the browser, and what limits it has.
 - `evm_mine` will return the new blocks instead of just `0x0`.
 - We've laid the ground work for additional performance improvements. We expect
   to see an additional 2-5x speed up for typical testing work loads in the near
   future.
 - New `evm_setCode` and `evm_setStorageAt` RPC methods
-- `evm_snapshot` ids will be globally unique (unpredictable instead of a counter)
+- `evm_snapshot` ids will be globally unique (unpredictable instead of a
+  counter)
 - Support `eth_getRawTransactionByHash` RPC method
 - Support `debug_accountAt` RPC method
 - Allow "mining" to be disabled on start up
 - Set CLI options via JSON, package.json, or ENV vars
-- Add an `eth_createAccessList` method
 - "Flavor" Plugins: We're building support for Layer 2 plugins into ganache so
   we can start up and manage other chains. e.g., The `ganache filecoin`
   command will look for the `@ganache/filecoin` package and start up a Filecoin
   and IPFS server.
 - Multi-chain configurations: you'll be able to start up your project's entire
-  blockchain "ecosystem" form a single ganache command: e.g., `ganache --flavor ethereum --flavor filecoin --flavor optimism`
+  blockchain "ecosystem" form a single ganache command: e.g.,
+  `ganache --flavor ethereum --flavor filecoin --flavor optimism`
   - this is where defining your CLI options via JSON config will come in very
     handy!
 - Infura integration: e.g., `ganache --fork mainnet` to fork off mainnet by
   authorization against infura to automatically fetch your Infura credentials?
+
+<small>
+1. [Nick Paterno](https://twitter.com/NJPaterno), now at
+[Staked](https://github.com/Stakedllc/), built our excellent [gas estimation
+algorithm](https://github.com/trufflesuite/ganache/blob/88822501912ef14c88e4ff1957def79b4845223d/src/chains/ethereum/ethereum/src/helpers/gas-estimator.ts)
+which required no changes
+</small>
