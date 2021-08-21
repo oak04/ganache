@@ -226,7 +226,7 @@ be missed. [Open a new issue](https://github.com/trufflesuite/ganache/issues/new
 if you relied on these removed internals and need us to build in public and
 stable access to them.
 
-### Dropping support for Node v8.x
+#### Dropping support for Node v8.x
 
 Hopefully this won't affect any one, as it's been unsupported by Node.js
 for over a year now.
