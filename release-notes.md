@@ -20,6 +20,13 @@
   [`ganache` npm package](https://www.npmjs.com/package/ganache) soon, or
   you’ll start seeing a deprecation notice upon installation.
 
+- The docker container will be moving to https://hub.docker.com/r/trufflesuite/ganache
+
+- Ganache now works in the browser and we are working on building interactive
+  browser-based documentation. We've built a
+  [prototype implementation](https://trufflesuite.github.io/ganache/) and are
+  working on optimizing and polishing the experience.
+
 - The `ganache-core` and `ganache-cli` GitHub repositories have been merged
   together and moved to [`ganache`](https://github.com/trufflesuite/ganache).
   Head over to the new repo and show it some love by smashing that ⭐ button!
@@ -216,6 +223,14 @@ const provider = Ganache.provider({
 });
 ```
 
+#### Default startup ether is now 1000 instead of 100
+
+We polled 50 developers about Ganache's startup Ether amount. 44% had no
+opinion, 33% didn't need more, and 22% said they change the default amount to
+1000 or more. While the 22% is a minority, we felt that it was a large enough
+userbase to warrant the change. Feel free to reach out to let us know if you
+like/dislike this change.
+
 #### Ganache's `provider` and `server` interface has changed
 
 Ganache's `provider` and `server` internals are no longer leaking. This means
@@ -225,6 +240,31 @@ launching to stable, but we need further feedback on other internals that will
 be missed. [Open a new issue](https://github.com/trufflesuite/ganache/issues/new)
 if you relied on these removed internals and need us to build in public and
 stable access to them.
+
+#### Non-consecutive transaction nonces no longer throw error
+
+We now support the `pendingTransactions` event and will soon support actual
+`pending` blocks.
+
+Previously, if you sent a transaction with a nonce that did not match the
+account's transaction count that transaction would be immediately rejected. In
+v7 that transaction will be placed in the node's transaction queue.
+
+You can replace these queued transactions the same way you'd replace the
+transaction on Mainnet or tests, by sending another transaction with the same
+nonce but a hire gas price.
+
+Currently the eviction mechanism is not tunable, but we plan on exposing options
+to change the behavior in the near future.
+
+Note: currently, the number of queued transactions do not have an upper bound
+and you can continue adding new transactions until your process runs of memory.
+We consider this a memory leak and a bug. Expect this unbounded behavior to
+change in a patch-level release in the future.
+
+Note 2: if you use the persisted DB option: we have never stored unexecuted
+transactions to disk and do not plan to do so. The same is true of these queued
+transactions.
 
 #### Dropping support for Node v8.x
 
@@ -238,7 +278,6 @@ October.
 #### ......
 
 - The underlying state trie is now computed properly; hashes and stateRoots will differ (fixes #664)
-
 - `Runtime Error:` errors are now `Runtime error:`
 - `web3_clientVersion` now returns `Ganache/v{number/number/number}`
 - change `signer account is locked` error to `authentication needed: password or unlock`
@@ -249,7 +288,6 @@ October.
 - rename provider.`removeAllListeners` to provider.clearListeners
 - remove `options.keepAliveTimeout`
 - remove support for BN in provider RPC methods
-- skipping nonces no longer results in an error ("too high" nonces aren't a thing anymore)
 - `provider.close` is now `provider.disconnect` and returns promise (no callback argument)
 - return `Cannot wrap a "[a-zA-Z]+" as a json-rpc type` on `evm_revert` error instead of `invalid type` or `false` for invalid snapshot ids
 - require transaction `data` to be valid json-rpc hex-encoded DATA (must start with `0x`)
@@ -275,4 +313,51 @@ October.
 
 - [Nick Paterno](https://twitter.com/NJPaterno), now at [Staked](https://github.com/Stakedllc/), built our excellent [gas estimation algorithm](https://github.com/trufflesuite/ganache/blob/88822501912ef14c88e4ff1957def79b4845223d/src/chains/ethereum/ethereum/src/helpers/gas-estimator.ts) which required no changes
 
+# New features
+
+- More forking auth options and configuration. See `ganache --help` for details
+- Namespaces for options arguments. See `ganache --help` for the new option
+  names. Note:
+  - you can still use the "legacy" options
+  - let us know if you love or hate the namespaced options
+
+# Known issues:
+
+- No London support yet. We know, we're waaay behind on this one, this is our
+  top priority.
+- Forking is so very slow.
+- Forking's `chainId` shouldn't match the remote chain. We really should use a
+  different `chainId` than the remote, but still be able to contexualize past
+  transactions with their original `chainId`.
+- Our types aren't properly exported yet.
+- Our docker container isn't published yet
+- We don't return a proper pending block yet.
+- Uncles aren't fully supported when forking
+- Forking may fail in weird and unexpected ways. We need to "error better".
+
 # Future plans:
+
+- London!
+- Document how to use ganache in the browser, and what limits it has.
+- Add in VM events so tools like `solcoverage` will work.
+- `evm_mine` will return the new blocks instead of just `0x0`.
+- We've laid the ground work for additional performance improvements. We expect
+  to see an additional 2-5x speed up for typical testing work loads in the near
+  future.
+- New `evm_setCode` and `evm_setStorageAt` RPC methods
+- `evm_snapshot` ids will be globally unique (unpredictable instead of a counter)
+- Support `eth_getRawTransactionByHash` RPC method
+- Support `debug_accountAt` RPC method
+- Allow "mining" to be disabled on start up
+- Set CLI options via JSON, package.json, or ENV vars
+- Add an `eth_createAccessList` method
+- "Flavor" Plugins: We're building support for Layer 2 plugins into ganache so
+  we can start up and manage other chains. e.g., The `ganache filecoin`
+  command will look for the `@ganache/filecoin` package and start up a Filecoin
+  and IPFS server.
+- Multi-chain configurations: you'll be able to start up your project's entire
+  blockchain "ecosystem" form a single ganache command: e.g., `ganache --flavor ethereum --flavor filecoin --flavor optimism`
+  - this is where defining your CLI options via JSON config will come in very
+    handy!
+- Infura integration: e.g., `ganache --fork mainnet` to fork off mainnet by
+  authorization against infura to automatically fetch your Infura credentials?
