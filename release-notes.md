@@ -183,6 +183,15 @@ const receipt = await send("eth_getTransactionReceipt", [txHash]);
 environments where you are the only one interacting with the node and are doing
 so sequentially.
 
+It is important to note thath in `legacyInstamine` mode error messages are
+returned on the result's `data` field now. Previously, they were contained
+within a combination of the `results: {[hash: string]: unknown}` and
+`hashes: string[]` properties. Also, only `evm_mine` and `miner_start` return an
+array for the `data` field, as these are the only places where multiple
+transactions may be executed (this isn't _entirely_ true when a nonce is skipped
+and then the skipped nonce is executed, but this behavior wasn't supported in
+previous versions anyway).
+
 #### VM Errors on RPC Response now defaults to disabled
 
 Ganache used to return error messages along side the result for
@@ -230,13 +239,10 @@ October.
 
 - The underlying state trie is now computed properly; hashes and stateRoots will differ (fixes #664)
 
-- `Runtime Error:` errors are now "Runtime error:`
-
+- `Runtime Error:` errors are now `Runtime error:`
 - `web3_clientVersion` now returns `Ganache/v{number/number/number}`
-- remove support for Node v8.x
 - change `signer account is locked` error to `authentication needed: password or unlock`
 - change `Exceeds block gas limit` error to `exceeds block gas limit`
-- `vmErrorsOnRPCResponse` option defaults to `false`
 - `chainId` option defaults to `1337`
 - `server.listen` isn't pre-bound to the `server` instance (`server.listen.bind(server)`)
 - `provider.send` isn't pre-bound to the `provider` instance (`provider.listen.bind(provider)`)
@@ -257,8 +263,6 @@ October.
 - change error when subscription requested over http from -32000 to -32004
 - require transaction `value` string to be valid JSON-RPC encoded QUANTITY ("1000" is no longer valid!)
 - replace `provider.options` with `provider.getOptions()`
-- Ganache no longer returns both an `error` and `result` via the provider when using old provider.send via `callback`.
-- (`legacyInstamine` mode only): error messages are returned on the result's `data` field now. Previously they were contained within a combination of the 'results: {[hash: string]: unknown}' and 'hashes: string[]' properties. Also, only `evm_mine` and `miner_start` return an array for the 'data' field, as these are the only places where multiple transactions may be executed (this isn't _entirely_ true when a nonce is skipped and then the skipped nonce is executed, but this behavior wasn't supported in v2 anyway!).
 - a result is no longer present when an error is returned. fixes #558 (for ganache v3 release only).
 - default `coinbase` (`eth_coinbase` RPC call) is now the `0x0` address (fixes #201)
 - transaction ordering from multiple accounts is now ordered by `gasPrice`
