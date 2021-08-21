@@ -39,7 +39,7 @@
   to the team in May! Go give him a follow!
 
 - Speaking of new team members…
-  [we’re hiring](https://consensys.net/open-roles/?discipline=32535/)! We’ve got
+  [we're hiring](https://consensys.net/open-roles/?discipline=32535/)! We’ve got
   tons of exciting work planned for the future of Ethereum developer tools. Come
   work with us on making Ethereum more accessible to more developers! Don’t know
   which positions to apply to? Feel free to reach out to anyone from our
@@ -391,6 +391,10 @@ or your team will be unable to upgrade to Node v12 or later by October.
 - New hardfork support well in advance of the hardfork launch.
 - Add an `eth_createAccessList` method
 - Add in VM events so tools like `solcoverage` will work.
+- Track test performance metrics overtime
+- Track real world ganache usage (opt-in and anonymized) to better tune
+  performance and drive bug fix and feature development.
+- Track test coverage
 - Document how to use ganache in the browser, and what limits it has.
 - `evm_mine` will return the new blocks instead of just `0x0`.
 - We've laid the ground work for additional performance improvements. We expect
@@ -414,10 +418,18 @@ or your team will be unable to upgrade to Node v12 or later by October.
     handy!
 - Infura integration: e.g., `ganache --fork mainnet` to fork off mainnet by
   authorization against infura to automatically fetch your Infura credentials?
+- CLI interactive/RELP mode
+- CLI dameon mode
+
+[Open new issues](https://github.com/trufflesuite/ganache/issues/new) (or
+[join our team](https://consensys.net/open-roles/?discipline=32535/)) to
+influence what we implemented and prioritized
+
+--
 
 <small>
 1. [Nick Paterno](https://twitter.com/NJPaterno), now at
 [Staked](https://github.com/Stakedllc/), built our excellent [gas estimation
 algorithm](https://github.com/trufflesuite/ganache/blob/88822501912ef14c88e4ff1957def79b4845223d/src/chains/ethereum/ethereum/src/helpers/gas-estimator.ts)
-which required no changes
+which required no changes ✨
 </small>
