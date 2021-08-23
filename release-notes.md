@@ -11,11 +11,11 @@
 - It's much faster and more memory efficient. We've seen `truffle test`
   execution times for real world repositories run in 1/3 the time. CLI
   initialization is ~300% faster. You can now run ganache indefinitely without
-  ever-increasing memory usage (with a few _very rare_ exceptions² we consider to
+  ever-increasing memory usage (with a few _very rare_ exceptions¹ we consider to
   be bugs that will be fixed in a later release).
 
 - The `ganache-core` and `ganache-cli` packages you know and love have been
-  (almost¹)) completely rewritten from the ground up in TypeScript.
+  (almost²)) completely rewritten from the ground up in TypeScript.
 
 - The `ganache-core` and `ganache-cli` npm packages have been merged into a
   single `ganache` package. We’ll continue to publish to the old core and cli
@@ -136,7 +136,7 @@ behave in the real world; transactions take time to be mined after being
 accepted by the node. If you're already using Ethereum libraries like
 [web3.js](https://github.com/ChainSafe/web3.js) or
 [ethers.js](https://github.com/ethers-io/ethers.js/) and connecting over
-websockets, you shouldn't have to worry about this change, as these libraries
+WebSockets, you shouldn't have to worry about this change, as these libraries
 already handle the transaction lifecycle for you.
 
 If you are using truffle to run your tests you'll want to enable the
@@ -155,7 +155,7 @@ module.exports = {
     /* … */
 ```
 
-_However, even with websockets enabled, some versions of these libraries,
+_However, even with WebSockets enabled, some versions of these libraries,
 including `truffle`, do not always set up their subscription events fast enough.
 When this happens the client will miss the notification from ganache and fall
 back to polling for changes (slow). We're working with libraries to fix this behavior,
@@ -395,7 +395,7 @@ let us know.
 - invalid transaction `v` values are no longer allowed
 - `provider.connection.close` is no longer a thing on the web3 provider (TODO:
   not sure what's going on here... need more info)
-- previous versions utf-8 instead of binary over websockets when the request was
+- previous versions utf-8 instead of binary over WebSockets when the request was
   binary encoded, the encoding is now echoed by default. There is new
   flag/option to revert behavior: `wsBinary`
 - change error code when subscription requested over http from -32000 to -32004
@@ -449,6 +449,7 @@ let us know.
 - Forking's `chainId` shouldn't match the remote chain. We really should use a
   different `chainId` than the remote, but still be able to contexualize past
   transactions with their original `chainId`.
+- WebSocket connections are sometimes closed prematurely.
 - Our TypeScript types aren't properly exported yet.
 - Our docker container isn't published yet.
 - We don't return a proper pending block yet.
@@ -483,7 +484,7 @@ let us know.
   command will look for the `@ganache/filecoin` package and start up a Filecoin
   and IPFS server.
 - Multi-chain configurations: you'll be able to start up your project's entire
-  blockchain "ecosystem" form a single ganache command: e.g.,
+  blockchain "ecosystem" from a single ganache command: e.g.,
   `ganache --flavor ethereum --flavor filecoin --flavor optimism`
   - this is where defining your CLI options via JSON config will come in very
     handy!
@@ -498,11 +499,11 @@ influence what we implemented and prioritized
 
 ---
 
-_1. [Nick Paterno](https://twitter.com/NJPaterno), now at
+<sub><sub>1. We don't evict excessive pending transactions, unreverted `evm_snapshot`
+references are only stored in memory, and we allow an unlimited number of wallet
+accounts to be created and stored in memory via `personal_newAccount`.
+<br> 2. [Nick Paterno](https://twitter.com/NJPaterno), now at
 [Staked](https://github.com/Stakedllc/), built our ✨excellent✨ [gas estimation
 algorithm](https://github.com/trufflesuite/ganache/blob/88822501912ef14c88e4ff1957def79b4845223d/src/chains/ethereum/ethereum/src/helpers/gas-estimator.ts)
-which required no changes_
-
-_2. We don't evict excessive pending transactions, unreverted `evm_snapshot`
-references are only stored in memory, and we allow an unlimited number of wallet
-accounts to be created and stored in memory via `personal_newAccount`._
+which required no changes
+</sub></sub>
