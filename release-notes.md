@@ -93,13 +93,14 @@ $ npm uninstall ganache-core ganache-cli
 $ npm install ganache@alpha
 ```
 
-You can now use the new `ganache` (without the `-cli` suffix):
+You can now use the new `ganache` (without the `-cli` suffix) on the
+command line:
 
 ```console
-$ ganache
+$ ganache # use `npx ganache` if you installed locally
 ```
 
-in your `package.json` scripts:
+and via global or local install in your `package.json` scripts:
 
 ```json
 {
