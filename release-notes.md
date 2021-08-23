@@ -15,7 +15,7 @@
   be bugs that will be fixed in a later release).
 
 - The `ganache-core` and `ganache-cli` packages you know and love have been
-  (almost²)) completely rewritten from the ground up in TypeScript.
+  (almost²) completely rewritten from the ground up in TypeScript.
 
 - The `ganache-core` and `ganache-cli` npm packages have been merged into a
   single `ganache` package. We’ll continue to publish to the old core and cli
@@ -502,8 +502,7 @@ influence what we implemented and prioritized
 <sub><sub>1. We don't evict excessive pending transactions, unreverted `evm_snapshot`
 references are only stored in memory, and we allow an unlimited number of wallet
 accounts to be created and stored in memory via `personal_newAccount`.
-<br> 2. [Nick Paterno](https://twitter.com/NJPaterno), now at
-[Staked](https://github.com/Stakedllc/), built our ✨excellent✨ [gas estimation
+<br> 2. Truffle alum, [Nick Paterno](https://twitter.com/NJPaterno), built our ✨excellent✨ [gas estimation
 algorithm](https://github.com/trufflesuite/ganache/blob/88822501912ef14c88e4ff1957def79b4845223d/src/chains/ethereum/ethereum/src/helpers/gas-estimator.ts)
-which required no changes
+which required no changes.
 </sub></sub>
