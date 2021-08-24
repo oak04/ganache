@@ -19,7 +19,7 @@
 
 ---
 
-**This release is the first _alpha_ release of the new and improved Ganache v7.0.0. We've got a lot in store for you in this breaking-change release, so you'll definitely want read on!**
+**This release is the first _alpha_ release of the new and improved Ganache v7.0.0. We've got a lot in store for you in this breaking-change release, so you'll definitely want to read on!**
 
 But first, this _is_ an alpha release; even these 7.0.0 release notes are "alpha" and the information here is likely incomplete. There will be bugs and kinks to work out before we ship things off to `beta`, `rc`, then finally to `latest`. You absolutely _should_ use this alpha release, but only to try it out and let us know where it breaks for you!
 
@@ -31,7 +31,7 @@ In other words: 🔥🐉 Here be dragons 🔥🐉️
 
 # <p align="center"><a href="#user-content-v7.0.0-alpha.0-highlights"><img alt="Highlights" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/highlights.svg"></a></p>
 
-- We broke Ganache… on purpose. 😅 This is a breaking change release, so you’ll want to pay close attention to these changes! ([skip to the changes](#user-content-breaking-changes))
+- We broke Ganache… on purpose. 😅 This is a breaking change release, so you’ll want to pay close attention to these changes! ([skip to the broken-stuff](#user-content-v7.0.0-alpha.0-breaking-changes))
 
 - It's much faster and more memory efficient. We've seen `truffle test` execution times for real world repositories run in 1/3 the time. CLI initialization is ~300% faster. You can now run ganache indefinitely without ever-increasing memory usage (with a few _very rare_ exceptions¹ we consider to be bugs that will be fixed in a later release).
 
@@ -111,9 +111,9 @@ and via global or local install in your `package.json` scripts:
 }
 ```
 
-_Note :we've aliased `ganache-cli` to `ganache`, so you can continue using the `ganache-cli` command in your npm scripts and in your terminal._
+_Note: we've aliased `ganache-cli` to `ganache`, so you can continue using the `ganache-cli` command in your npm scripts and in your terminal._
 
-The docker container will be moving -- from https://hub.docker.com/r/trufflesuite/ganache-cli to https://hub.docker.com/r/trufflesuite/ganache.
+The docker container will be moving soon -- from https://hub.docker.com/r/trufflesuite/ganache-cli to https://hub.docker.com/r/trufflesuite/ganache.
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
@@ -225,7 +225,7 @@ It is important to note that in `legacyInstamine` mode error messages are return
 
 ### <a id="user-content-v7.0.0-alpha.0-vm-errors-on-rpc-response-now-defaults-to-disabled"></a>VM Errors on RPC Response now defaults to disabled
 
-Ganache used to return error messages alongside the result for `eth_sendTransaction` and `eth_sendRawTransaction` RPC calls by default. This is invalid behavior for a node and caused problems with some libraries.
+Ganache used to return error messages alongside the result for `eth_sendTransaction` and `eth_sendRawTransaction` RPC calls by default. This is invalid behavior for a node and causes problems with some libraries.
 
 You can still enable this feature, but to do so you'll need to also enable `legacyInstamine` mode, as described above:
 
@@ -248,7 +248,7 @@ const provider = Ganache.provider({
 
 ### <a id="user-content-v7.0.0-alpha.0-default-startup-ether-is-now-1000-instead-of-100"></a>Default startup ether is now 1000 instead of 100
 
-We polled 50 developers about Ganache's startup Ether amount. 44% had no opinion, 33% didn't need more, and 22% said they change the default amount to 1000 or more. While the 22% is a minority, we felt that it was a large enough userbase to warrant the change. Feel free to reach out to let us know if you like/dislike this change.
+We polled 50 developers about Ganache's startup Ether amount. 44% had no opinion, 33% didn't need more, and 22% said they change the default amount to 1000 or more. While the 22% is a minority, we felt that it was a large enough percentage to warrant the change. Feel free to reach out to let us know if you like/dislike this change.
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
@@ -268,7 +268,7 @@ You can replace these queued transactions the same way you'd replace the transac
 
 Currently the eviction mechanism is not tunable, but we plan on exposing options to change the behavior in the near future.
 
-Note: currently, the number of queued transactions does not have an upper bound and you can continue adding new transactions until your process runs of memory. We consider this a memory leak and a bug. Expect this unbounded behavior to change in a patch-level release in the future.
+Note: currently, the number of queued transactions does not have an upper bound and you can continue adding new transactions until your process runs out of memory and crashes. We consider this a memory leak and a bug. Expect this unbounded behavior to change in a patch-level release in the future.
 
 Note 2: if you use the persisted DB option: we have never stored unexecuted transactions to disk and do not plan to do so. The same is true of these queued transactions.
 
@@ -276,7 +276,7 @@ Note 2: if you use the persisted DB option: we have never stored unexecuted tran
 
 ### <a id="user-content-v7.0.0-alpha.0-weve-dropped-support-for-node-v8x"></a>We've dropped support for Node v8.x
 
-Hopefully this won't affect any one, as it's been unsupported by Node.js for over a year now.
+Hopefully this won't affect anyone, as it's been unsupported by Node.js for over a year now.
 
 We plan on dropping support for Node v10 within the next few months. Please [file an issue](https://github.com/trufflesuite/ganache/issues) if you think you or your team will be unable to upgrade to Node v12 or later by mid October 2021.
 
@@ -284,7 +284,7 @@ We plan on dropping support for Node v10 within the next few months. Please [fil
 
 ### <a id="user-content-v7.0.0-alpha.0-old-databases-from-previous-versions-are-not-compatible-with-v700"></a>Old databases from previous versions are not compatible with v7.0.0
 
-Ganache's old database format is incompatible with this version. We've decided to hold off on building migration tools for this. If you will need a migration tool (you use the `db_path` flag and are unable to recreate you initial state) please [open an issue](https://github.com/trufflesuite/ganache/issues/new) to let us know.
+Ganache's old database format is incompatible with this version. We've decided to hold off on building migration tools for this. If you will need a migration tool (you use the `db_path` flag and are unable to recreate your initial DB state) please [open an issue](https://github.com/trufflesuite/ganache/issues/new) to let us know.
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-breaking-changes">back to breaking</a></sup></p>
@@ -301,7 +301,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 - rename `provider.removeAllListeners` to `provider.clearListeners`
 - `provider.close` is now `provider.disconnect` and returns a Promise (no callback argument)
 - return `Cannot wrap a "[a-zA-Z]+" as a json-rpc type` on `evm_revert` error instead of `invalid type` or `false` for invalid snapshot ids
-- change invalid string are now error with `cannot convert string value ${value} into type Quantity; strings must be hex-encoded and prefixed with "0x".`
+- change invalid string handling to error with `cannot convert string value ${value} into type Quantity; strings must be hex-encoded and prefixed with "0x".`
 - change `Method {method} not supported` error to `The method {method} does not exist/is not available`
 - return error `header not found` for requests to non-existent blocks
 - replace mutable `provider.options` with `provider.getOptions()`; `getOptions` now returns a deep clone of the options object
@@ -319,7 +319,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 - remove support for BN in provider RPC methods
 - require transaction `data` to be valid json-rpc hex-encoded DATA (must start with `0x`)
 - invalid transaction `v` values are no longer allowed
-- previous versions utf-8 instead of binary over WebSockets when the request was binary encoded, the encoding is now echoed by default. There is new flag/option to revert behavior: `wsBinary`
+- previous versions sent utf-8 instead of binary over WebSockets when the request was binary encoded, the encoding is now echoed by default. There is new flag/option to revert behavior: `wsBinary`
 - change error code when subscription requested over http from -32000 to -32004
 - require transaction `value` string to be valid JSON-RPC encoded QUANTITY, e.g., "1000" is no longer valid!
 - a `result` is no longer present when an `error` is returned (fixes #558)
@@ -377,7 +377,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 
 - No Berlin/London support yet. We apologize for being behind on this one. This is our top priority and expect a follow up alpha release within 1 week to add in London and EIP-1559 transaction (type 2) support.
 - Forking is so very slow.
-- Forking's `chainId` shouldn't match the remote chain. We really should use a different `chainId` than the remote, but still be able to contexualize past transactions with their original `chainId`.
+- Forking's `chainId` shouldn't match the remote chain. We really should use a different `chainId` than the remote, but still be able to contextualize past transactions with their original `chainId`.
 - WebSocket connections are sometimes closed prematurely.
 - Our TypeScript types aren't properly exported.
 - Our Docker container isn't published.
@@ -402,7 +402,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 - Track test coverage.
 - Document how to use ganache in the browser, and what limits it has.
 - `evm_mine` will return the new blocks instead of just `0x0`.
-- We've laid the ground work for additional performance improvements. We expect to see an additional 2-5x speed up for typical testing work loads in the near future.
+- We've laid the groundwork for additional performance improvements. We expect to see an additional 2-5x speed up for typical testing work loads in the near future.
 - Add new `evm_setCode` and `evm_setStorageAt` RPC methods.
 - Make `evm_snapshot` ids globally unique (unpredictable instead of a counter).
 - Support `eth_getRawTransactionByHash` RPC method.
@@ -414,7 +414,7 @@ Ganache's old database format is incompatible with this version. We've decided t
   - this is where defining your CLI options via JSON config will come in very handy!
 - Infura integration: e.g., `ganache --fork mainnet` to fork off mainnet by authorization against infura to automatically fetch your Infura credentials?
 - Create a CLI interactive/RELP mode.
-- Enable a CLI dameon mode.
+- Enable a CLI daemon mode.
 
 [Open new issues](https://github.com/trufflesuite/ganache/issues/new) (or [join our team](https://consensys.net/open-roles/?discipline=32535/)) to influence what we implemented and prioritized.
 
