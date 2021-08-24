@@ -129,8 +129,7 @@ const receipt = await provider.send("eth_getTransactionReceipt", [txHash]);
 assert.notStrictEqual(receipt, null);
 ```
 
-The problem is that this behavior is not representative of how Ethereum nodes behave in the real world; transactions take time to be mined after being accepted by the node. If you're already using Ethereum libraries like [web3.js](https://github.com/ChainSafe/web3.js) or
-[ethers.js](https://github.com/ethers-io/ethers.js/) and connecting over WebSockets, you shouldn't have to worry about this change, as these libraries already handle the transaction lifecycle for you.
+The problem is that this behavior is not representative of how Ethereum nodes behave in the real world; transactions take time to be mined after being accepted by the node. If you're already using Ethereum libraries like [web3.js](https://github.com/ChainSafe/web3.js) or [ethers.js](https://github.com/ethers-io/ethers.js/) and connecting over WebSockets, you shouldn't have to worry about this change, as these libraries already handle the transaction lifecycle for you.
 
 If you are using Truffle to run your tests you'll want to enable the `websockets` flag in your Truffle config:
 
@@ -140,9 +139,9 @@ module.exports = {
   networks: {
     development: {
       host: "127.0.0.1",
-      websockets: true // 🢀 add this
       port: 8545,
       network_id: "*",
+      websockets: true // ← add this
     },
     /* … */
 ```
@@ -254,7 +253,7 @@ We polled 50 developers about Ganache's startup Ether amount. 44% had no opinion
 
 ### <a id="user-content-v7.0.0-alpha.0-ganaches-provider-and-server-interface-have-changed"></a>Ganache's `provider` and `server` interfaces have changed
 
-Ganache's `provider` and `server` internals are no longer leaking. This means you can’t manipulate the `vm` directly anymore. We’re already planning on exposing many of the vm events that other tools rely on (like `”step”`) before launching to stable, but we need further feedback on other internals that will be missed. [Open a new issue](https://github.com/trufflesuite/ganache/issues/new) if you relied on these removed internals and need us to build in public and stable access to them.
+Ganache's `provider` and `server` internals are no longer leaking. This means you can’t manipulate the `vm` directly anymore. We’re already planning on exposing many of the vm events that other tools rely on (like `”step”`) before launching to stable, but we need further feedback on other internals that will be missed. [Open a new issue](https://github.com/trufflesuite/ganache/issues/new?milestone=7.0.0) if you relied on these removed internals and need us to build in public and stable access to them.
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
@@ -278,13 +277,13 @@ Note 2: if you use the persisted DB option: we have never stored unexecuted tran
 
 Hopefully this won't affect anyone, as it's been unsupported by Node.js for over a year now.
 
-We plan on dropping support for Node v10 within the next few months. Please [file an issue](https://github.com/trufflesuite/ganache/issues) if you think you or your team will be unable to upgrade to Node v12 or later by mid October 2021.
+We plan on dropping support for Node v10 within the next few months. Please [file an issue](https://github.com/trufflesuite/ganache/issues/new?milestone=7.0.0&title=I%20need%20Node.js%20v10) if you think you or your team will be unable to upgrade to Node v12 or later by mid October 2021.
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
 ### <a id="user-content-v7.0.0-alpha.0-old-databases-from-previous-versions-are-not-compatible-with-v700"></a>Old databases from previous versions are not compatible with v7.0.0
 
-Ganache's old database format is incompatible with this version. We've decided to hold off on building migration tools for this. If you will need a migration tool (you use the `db_path` flag and are unable to recreate your initial DB state) please [open an issue](https://github.com/trufflesuite/ganache/issues/new) to let us know.
+Ganache's old database format is incompatible with this version. We've decided to hold off on building migration tools for this. If you will need a migration tool (you use the `db_path` flag and are unable to recreate your initial DB state) please [open an issue](https://github.com/trufflesuite/ganache/issues/new?milestone=7.0.0) to let us know.
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-breaking-changes">back to breaking</a></sup></p>
@@ -314,7 +313,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 ## <a id="user-content-v7.0.0-alpha.0-technically-bug-fixes-but-these-might-break-your-tests"></a>Technically bug fixes, but these might break your tests:
 
 - blocks are now filled based on actual transaction gas usage, not by the transactions stated `gas`/`gasLimit`
-- The underlying state trie is now computed properly; hashes and stateRoots will differ (fixes #664)
+- the underlying state trie is now computed properly; hashes and stateRoots will differ (fixes #664)
 - `chainId` option defaults to `1337` everywhere
 - remove support for BN in provider RPC methods
 - require transaction `data` to be valid json-rpc hex-encoded DATA (must start with `0x`)
@@ -416,7 +415,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 - Create a CLI interactive/RELP mode.
 - Enable a CLI daemon mode.
 
-[Open new issues](https://github.com/trufflesuite/ganache/issues/new) (or [join our team](https://consensys.net/open-roles/?discipline=32535/)) to influence what we implemented and prioritized.
+[Open new issues](https://github.com/trufflesuite/ganache/issues/new?milestone=7.0.0) (or [join our team](https://consensys.net/open-roles/?discipline=32535/)) to influence what we implemented and prioritized.
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-top">back to top</a></sup></p>
 
