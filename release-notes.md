@@ -23,6 +23,8 @@ But first, this _is_ an alpha release; even these 7.0.0 release notes are "alpha
 
 In other words: 🔥🐉 Here be dragons 🔥🐉️
 
+---
+
 # <a id="user-content-v7.0.0-alpha.0-highlights" href="#user-content-v7.0.0-alpha.0-highlights"><img alt="Highlights" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/highlights.svg"></a>
 
 - We broke Ganache… on purpose. 😅 This is a breaking change release, so you’ll want to pay close attention to these changes! ([skip to the changes](#user-content-breaking-changes))
@@ -57,16 +59,17 @@ Many changes are "breaking", some more than others. We've put the breaking chang
 
 These changes are likely to cause you some trouble if you upgrade blindly. We've ordered them from most-likley to least-likely to cause you trouble:
 
-- [We've renamed our packages](#weve-renamed-our-packages)
+- [We've renamed our packages](#user-content-v7.0.0-alpha.0-weve-renamed-our-packages)
 - [Transaction hashes are now returned before the transaction receipt is available.
-  ](#transaction-hashes-are-now-returned-before-the-transaction-receipt-is-available)
-- [VM Errors on RPC Response now defaults to disabled](#vm-errors-on-rpc-response-now-defaults-to-disabled)
-- [Default startup ether is now 1000 instead of 100](#default-startup-ether-is-now-1000-instead-of-100)
-- [Non-consecutive transaction nonces no longer throw an error](#non-consecutive-transaction-nonces-no-longer-throw-an-error)
-- [We've dropped support for Node v8.x](#weve-dropped-support-for-node-v8x)
-- [Old databases from previous versions are not compatible with v7.0.0](#old-databases-from-previous-versions-are-not-compatible-with-v700)
+  ](#user-content-v7.0.0-alpha.0-transaction-hashes-are-now-returned-before-the-transaction-receipt-is-available)
+- [VM Errors on RPC Response now defaults to disabled](#user-content-v7.0.0-alpha.0-vm-errors-on-rpc-response-now-defaults-to-disabled)
+- [Default startup ether is now 1000 instead of 100](#user-content-v7.0.0-alpha.0-default-startup-ether-is-now-1000-instead-of-100)
+- [Ganache's `provider` and `server` interfaces have changed](#user-content-v7.0.0-alpha.0-ganaches-provider-and-server-interface-have-changed)
+- [Non-consecutive transaction nonces no longer throw an error](#user-content-v7.0.0-alpha.0-non-consecutive-transaction-nonces-no-longer-throw-an-error)
+- [We've dropped support for Node v8.x](#user-content-v7.0.0-alpha.0-weve-dropped-support-for-node-v8x)
+- [Old databases from previous versions are not compatible with v7.0.0](#user-content-v7.0.0-alpha.0-old-databases-from-previous-versions-are-not-compatible-with-v700)
 
-### We've renamed our packages
+### <a id="user-content-v7.0.0-alpha.0-weve-renamed-our-packages"></a>We've renamed our packages
 
 We've renamed `ganache-cli` and `ganache-core` to `ganache`. You'll need to uninstall the old version before installing the new.
 
@@ -106,7 +109,7 @@ The docker container will be moving -- from https://hub.docker.com/r/trufflesuit
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-### Transaction hashes are now returned _before_ the transaction receipt is available.
+### <a id="user-content-v7.0.0-alpha.0-transaction-hashes-are-now-returned-before-the-transaction-receipt-is-available"></a>Transaction hashes are now returned _before_ the transaction receipt is available.
 
 Previously, Ganache would allow this:
 
@@ -212,7 +215,7 @@ const receipt = await send("eth_getTransactionReceipt", [txHash]);
 
 It is important to note that in `legacyInstamine` mode error messages are returned on the result's `data` field now. Previously, they were contained within a combination of the `results: {[hash: string]: unknown}` and `hashes: string[]` properties. Also, only `evm_mine` and `miner_start` return an array for the `data` field, as these are the only places where multiple transactions may be executed (this isn't _entirely_ true when a nonce is skipped and then the skipped nonce is executed, but this behavior wasn't supported in previous versions anyway).
 
-#### VM Errors on RPC Response now defaults to disabled
+### <a id="user-content-v7.0.0-alpha.0-vm-errors-on-rpc-response-now-defaults-to-disabled"></a>VM Errors on RPC Response now defaults to disabled
 
 Ganache used to return error messages alongside the result for `eth_sendTransaction` and `eth_sendRawTransaction` RPC calls by default. This is invalid behavior for a node and caused problems with some libraries.
 
@@ -235,19 +238,19 @@ const provider = Ganache.provider({
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-### Default startup ether is now 1000 instead of 100
+### <a id="user-content-v7.0.0-alpha.0-default-startup-ether-is-now-1000-instead-of-100"></a>Default startup ether is now 1000 instead of 100
 
 We polled 50 developers about Ganache's startup Ether amount. 44% had no opinion, 33% didn't need more, and 22% said they change the default amount to 1000 or more. While the 22% is a minority, we felt that it was a large enough userbase to warrant the change. Feel free to reach out to let us know if you like/dislike this change.
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-### Ganache's `provider` and `server` interface has changed
+### <a id="user-content-v7.0.0-alpha.0-ganaches-provider-and-server-interface-have-changed"></a>Ganache's `provider` and `server` interfaces have changed
 
 Ganache's `provider` and `server` internals are no longer leaking. This means you can’t manipulate the `vm` directly anymore. We’re already planning on exposing many of the vm events that other tools rely on (like `”step”`) before launching to stable, but we need further feedback on other internals that will be missed. [Open a new issue](https://github.com/trufflesuite/ganache/issues/new) if you relied on these removed internals and need us to build in public and stable access to them.
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-### Non-consecutive transaction nonces no longer throw an error
+### <a id="user-content-v7.0.0-alpha.0-non-consecutive-transaction-nonces-no-longer-throw-an-error"></a> Non-consecutive transaction nonces no longer throw an error
 
 We now support the `pendingTransactions` event and will soon support actual `pending` blocks.
 
@@ -263,7 +266,7 @@ Note 2: if you use the persisted DB option: we have never stored unexecuted tran
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-### We've dropped support for Node v8.x
+### <a id="user-content-v7.0.0-alpha.0-weve-dropped-support-for-node-v8x"></a>We've dropped support for Node v8.x
 
 Hopefully this won't affect any one, as it's been unsupported by Node.js for over a year now.
 
@@ -271,26 +274,23 @@ We plan on dropping support for Node v10 within the next few months. Please [fil
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-### Old databases from previous versions are not compatible with v7.0.0
+### <a id="user-content-v7.0.0-alpha.0-old-databases-from-previous-versions-are-not-compatible-with-v700"></a>Old databases from previous versions are not compatible with v7.0.0
 
 Ganache's old database format is incompatible with this version. We've decided to hold off on building migration tools for this. If you will need a migration tool (you use the `db_path` flag and are unable to recreate you initial state) please [open an issue](https://github.com/trufflesuite/ganache/issues/new) to let us know.
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-## Other breaking changes, but you probably won't notice or care:
+## <a id="user-content-v7.0.0-alpha.0-other-breaking-changes-but-you-probably-wont-notice-or-care"></a>Other breaking changes, but you probably won't notice or care
 
 - `web3_clientVersion` now returns `Ganache/v{number/number/number}`
 - `Runtime Error:` errors are now `Runtime error:`
-- change `signer account is locked` error to
-  `authentication needed: password or unlock`
+- change `signer account is locked` error to `authentication needed: password or unlock`
 - change `Exceeds block gas limit` error to `exceeds block gas limit`
-- `server.listen` isn't pre-bound to the `server` instance
-  (`server.listen.bind(server)`)
-- `provider.send` isn't pre-bound to the `provider` instance
-  (`provider.listen.bind(provider)`)
+- `server.listen` isn't pre-bound to the `server` instance (`server.listen.bind(server)`)
+- `provider.send` isn't pre-bound to the `provider` instance (`provider.listen.bind(provider)`)
 - remove `options.keepAliveTimeout`
 - rename `provider.removeAllListeners` to `provider.clearListeners`
-- `provider.close` is now `provider.disconnect` and returns promise (no callback argument)
+- `provider.close` is now `provider.disconnect` and returns a Promise (no callback argument)
 - return `Cannot wrap a "[a-zA-Z]+" as a json-rpc type` on `evm_revert` error instead of `invalid type` or `false` for invalid snapshot ids
 - change invalid string are now error with `cannot convert string value ${value} into type Quantity; strings must be hex-encoded and prefixed with "0x".`
 - change `Method {method} not supported` error to `The method {method} does not exist/is not available`
@@ -300,7 +300,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 - `sender doesn't have enough funds to send tx` errors are now prefixed with `VM Exception while processing transaction`
 - `logs` subscription events are emitted before `newHeads` events
 
-## Technically bug fixes, but these might break your tests:
+## <a id="user-content-v7.0.0-alpha.0-technically-bug-fixes-but-these-might-break-your-tests"></a>Technically bug fixes, but these might break your tests:
 
 - blocks are now filled based on actual transaction gas usage, not by the transactions stated `gas`/`gasLimit`
 - The underlying state trie is now computed properly; hashes and stateRoots will differ (fixes #664)
@@ -308,7 +308,6 @@ Ganache's old database format is incompatible with this version. We've decided t
 - remove support for BN in provider RPC methods
 - require transaction `data` to be valid json-rpc hex-encoded DATA (must start with `0x`)
 - invalid transaction `v` values are no longer allowed
-- `provider.connection.close` is no longer a thing on the web3 provider (TODO: not sure what's going on here... need more info)
 - previous versions utf-8 instead of binary over WebSockets when the request was binary encoded, the encoding is now echoed by default. There is new flag/option to revert behavior: `wsBinary`
 - change error code when subscription requested over http from -32000 to -32004
 - require transaction `value` string to be valid JSON-RPC encoded QUANTITY, e.g., "1000" is no longer valid!
@@ -320,7 +319,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 
 # <a id="user-content-v7.0.0-alpha.0-fixes" href="#user-content-v7.0.0-alpha.0-fixes"><img alt="Fixes" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/fixes.svg"></a>
 
-- An actual block size is now return in `eth_getBlock*` calls
+- An actual block size is now returned in `eth_getBlock*` calls
 - `eth_sign` returns correct signatures (fixes #556)
 - The underlying state trie is now computed properly (fixes #664)
 
