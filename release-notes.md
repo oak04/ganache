@@ -1,6 +1,6 @@
 <h4>
   <p align="center">
-		<code>&nbsp;<a href="#user-content-v7.0.0-alpha.0-highlights"></a>&nbsp;</code>&nbsp;
+		<code>&nbsp;<a href="#user-content-v7.0.0-alpha.0-highlights">Highlights</a>&nbsp;</code>&nbsp;
 		<img height="36" width="0" src="https://raw.githubusercontent.com/davidmurdoch/px/master/1px.gif">
 		<code>&nbsp;<a href="#user-content-v7.0.0-alpha.0-breaking-changes">Breaking&nbsp;Changes</a>&nbsp;</code>&nbsp;
 		<img height="36" width="0" src="https://raw.githubusercontent.com/davidmurdoch/px/master/1px.gif">
@@ -23,13 +23,11 @@ But first, this _is_ an alpha release; even these 7.0.0 release notes are "alpha
 
 In other words: 🔥🐉 Here be dragons 🔥🐉️
 
-## <a id="user-content-v7.0.0-alpha.0-highlights" href="#user-content-v7.0.0-alpha.0-highlights">🔗</a> Highlights
+# <a id="user-content-v7.0.0-alpha.0-highlights" href="#user-content-v7.0.0-alpha.0-highlights"><img alt="Highlights" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/highlights.svg"></a>
 
-- We broke Ganache. On purpose. 😅 This is a breaking change release, so you’ll want to pay close attention to these changes! ([skip to the changes](#user-content-breaking-changes))
+- We broke Ganache… on purpose. 😅 This is a breaking change release, so you’ll want to pay close attention to these changes! ([skip to the changes](#user-content-breaking-changes))
 
-- It's much faster and more memory efficient. We've seen `truffle test` execution times for real world repositories run in 1/3 the time. CLI
-  initialization is ~300% faster. You can now run ganache indefinitely without ever-increasing memory usage (with a few _very rare_
-  exceptions¹ we consider to be bugs that will be fixed in a later release).
+- It's much faster and more memory efficient. We've seen `truffle test` execution times for real world repositories run in 1/3 the time. CLI initialization is ~300% faster. You can now run ganache indefinitely without ever-increasing memory usage (with a few _very rare_ exceptions¹ we consider to be bugs that will be fixed in a later release).
 
 - The `ganache-core` and `ganache-cli` packages you know and love have been (almost²) completely rewritten from the ground up in TypeScript.
 
@@ -47,15 +45,15 @@ In other words: 🔥🐉 Here be dragons 🔥🐉️
 
 ---
 
-## <a id="user-content-v7.0.0-alpha.0-breaking-changes"></a>Breaking Changes
+# <a id="user-content-v7.0.0-alpha.0-breaking-changes" href="#user-content-v7.0.0-alpha.0-breaking-changes"><img alt="Breaking Changes" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/breaking-changes.svg"></a>
 
 Many changes are "breaking", some more than others. We've put the breaking changes into three categories:
 
-- [The big ones](#the-big-ones)
-- [Other breaking changes, but you probably won't notice or care](#other-breaking-changes-but-you-probably-wont-notice-or-care)
-- [Technically bug fixes, but these might break your tests](#technically-bug-fixes-but-these-might-break-your-tests)
+- [The big ones](#user-content-v7.0.0-alpha.0-the-big-ones)
+- [Other breaking changes, but you probably won't notice or care](#user-content-v7.0.0-alpha.0-other-breaking-changes-but-you-probably-wont-notice-or-care)
+- [Technically bug fixes, but these might break your tests](#user-content-v7.0.0-alpha.0-technically-bug-fixes-but-these-might-break-your-tests)
 
-### <a id="user-content-v7.0.0-alpha.0-the-big-ones"></a>The big ones
+## <a id="user-content-v7.0.0-alpha.0-the-big-ones"></a>The big ones
 
 These changes are likely to cause you some trouble if you upgrade blindly. We've ordered them from most-likley to least-likely to cause you trouble:
 
@@ -68,7 +66,7 @@ These changes are likely to cause you some trouble if you upgrade blindly. We've
 - [We've dropped support for Node v8.x](#weve-dropped-support-for-node-v8x)
 - [Old databases from previous versions are not compatible with v7.0.0](#old-databases-from-previous-versions-are-not-compatible-with-v700)
 
-#### We've renamed our packages
+### We've renamed our packages
 
 We've renamed `ganache-cli` and `ganache-core` to `ganache`. You'll need to uninstall the old version before installing the new.
 
@@ -104,13 +102,11 @@ and via global or local install in your `package.json` scripts:
 
 _Note :we've aliased `ganache-cli` to `ganache`, so you can continue using the `ganache-cli` command in your npm scripts and in your terminal._
 
-The docker container will be moving -- from
-https://hub.docker.com/r/trufflesuite/ganache-cli to
-https://hub.docker.com/r/trufflesuite/ganache.
+The docker container will be moving -- from https://hub.docker.com/r/trufflesuite/ganache-cli to https://hub.docker.com/r/trufflesuite/ganache.
 
-<p align="right"><sup><a href="#the-big-ones">back to list</a></sup></p>
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-#### Transaction hashes are now returned _before_ the transaction receipt is available.
+### Transaction hashes are now returned _before_ the transaction receipt is available.
 
 Previously, Ganache would allow this:
 
@@ -125,7 +121,7 @@ assert.notStrictEqual(receipt, null);
 The problem is that this behavior is not representative of how Ethereum nodes behave in the real world; transactions take time to be mined after being accepted by the node. If you're already using Ethereum libraries like [web3.js](https://github.com/ChainSafe/web3.js) or
 [ethers.js](https://github.com/ethers-io/ethers.js/) and connecting over WebSockets, you shouldn't have to worry about this change, as these libraries already handle the transaction lifecycle for you.
 
-If you are using truffle to run your tests you'll want to enable the `websockets` flag in your truffle config:
+If you are using Truffle to run your tests you'll want to enable the `websockets` flag in your Truffle config:
 
 ```javascript
 // truffle-config.js
@@ -195,20 +191,20 @@ const sendRawTransaction = async (provider, rawTransaction) => {
 };
 ```
 
-I know… this is a lot of code for something that used to be so simple! Which is why we've added a small helper for the simplest cases:
+I know… this is a lot of code for something that used to be so simple! This is why we've added a small helper for the simplest cases:
 
 ```javascript
 // setup
 const provider = Ganache.provider();
 const send = (method, params) => provider.request({ method, params });
 // subscribe ONCE when starting ganache
-await send("eth_subscribe", ["newHeads"]); // 🢀 add this
+await send("eth_subscribe", ["newHeads"]); // ← add this
 
 // …
 
 const txHash = await send("eth_sendRawTransaction", [transaction]);
 // wait for a single block then continue
-await provider.once("message"); // 🢀 add this
+await provider.once("message"); // ← add this
 const receipt = await send("eth_getTransactionReceipt", [txHash]);
 ```
 
@@ -218,7 +214,7 @@ It is important to note that in `legacyInstamine` mode error messages are return
 
 #### VM Errors on RPC Response now defaults to disabled
 
-Ganache used to return error messages along side the result for `eth_sendTransaction` and `eth_sendRawTransaction` RPC calls by default. This is invalid behavior for a node and caused problems with some libraries.
+Ganache used to return error messages alongside the result for `eth_sendTransaction` and `eth_sendRawTransaction` RPC calls by default. This is invalid behavior for a node and caused problems with some libraries.
 
 You can still enable this feature, but to do so you'll need to also enable `legacyInstamine` mode, as described above:
 
@@ -237,27 +233,27 @@ const provider = Ganache.provider({
 });
 ```
 
-<p align="right"><sup><a href="#the-big-ones">back to list</a></sup></p>
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-#### Default startup ether is now 1000 instead of 100
+### Default startup ether is now 1000 instead of 100
 
 We polled 50 developers about Ganache's startup Ether amount. 44% had no opinion, 33% didn't need more, and 22% said they change the default amount to 1000 or more. While the 22% is a minority, we felt that it was a large enough userbase to warrant the change. Feel free to reach out to let us know if you like/dislike this change.
 
-<p align="right"><sup><a href="#the-big-ones">back to list</a></sup></p>
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-#### Ganache's `provider` and `server` interface has changed
+### Ganache's `provider` and `server` interface has changed
 
 Ganache's `provider` and `server` internals are no longer leaking. This means you can’t manipulate the `vm` directly anymore. We’re already planning on exposing many of the vm events that other tools rely on (like `”step”`) before launching to stable, but we need further feedback on other internals that will be missed. [Open a new issue](https://github.com/trufflesuite/ganache/issues/new) if you relied on these removed internals and need us to build in public and stable access to them.
 
-<p align="right"><sup><a href="#the-big-ones">back to list</a></sup></p>
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-#### Non-consecutive transaction nonces no longer throw an error
+### Non-consecutive transaction nonces no longer throw an error
 
 We now support the `pendingTransactions` event and will soon support actual `pending` blocks.
 
 Previously, if you sent a transaction with a nonce that did not match the account's transaction count that transaction would be immediately rejected. In v7 that transaction will be placed in the node's transaction queue.
 
-You can replace these queued transactions the same way you'd replace the transaction on Mainnet or tests, by sending another transaction with the same nonce but a hire gas price.
+You can replace these queued transactions the same way you'd replace the transaction on Mainnet or tests, by sending another transaction with the same nonce but a higher gas price.
 
 Currently the eviction mechanism is not tunable, but we plan on exposing options to change the behavior in the near future.
 
@@ -265,23 +261,23 @@ Note: currently, the number of queued transactions do not have an upper bound an
 
 Note 2: if you use the persisted DB option: we have never stored unexecuted transactions to disk and do not plan to do so. The same is true of these queued transactions.
 
-<p align="right"><sup><a href="#the-big-ones">back to list</a></sup></p>
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-#### We've dropped support for Node v8.x
+### We've dropped support for Node v8.x
 
 Hopefully this won't affect any one, as it's been unsupported by Node.js for over a year now.
 
 We plan on dropping support for Node v10 within the next few months. Please [file an issue](https://github.com/trufflesuite/ganache/issues) if you think you or your team will be unable to upgrade to Node v12 or later by mid October 2021.
 
-<p align="right"><sup><a href="#the-big-ones">back to list</a></sup></p>
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-#### Old databases from previous versions are not compatible with v7.0.0
+### Old databases from previous versions are not compatible with v7.0.0
 
 Ganache's old database format is incompatible with this version. We've decided to hold off on building migration tools for this. If you will need a migration tool (you use the `db_path` flag and are unable to recreate you initial state) please [open an issue](https://github.com/trufflesuite/ganache/issues/new) to let us know.
 
-<p align="right"><sup><a href="#the-big-ones">back to list</a></sup></p>
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
-### Other breaking changes, but you probably won't notice or care:
+## Other breaking changes, but you probably won't notice or care:
 
 - `web3_clientVersion` now returns `Ganache/v{number/number/number}`
 - `Runtime Error:` errors are now `Runtime error:`
@@ -304,7 +300,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 - `sender doesn't have enough funds to send tx` errors are now prefixed with `VM Exception while processing transaction`
 - `logs` subscription events are emitted before `newHeads` events
 
-### Technically bug fixes, but these might break your tests:
+## Technically bug fixes, but these might break your tests:
 
 - blocks are now filled based on actual transaction gas usage, not by the transactions stated `gas`/`gasLimit`
 - The underlying state trie is now computed properly; hashes and stateRoots will differ (fixes #664)
@@ -320,13 +316,17 @@ Ganache's old database format is incompatible with this version. We've decided t
 - transaction ordering from multiple accounts is now ordered by `gasPrice`
 - `options` now always treats strings that represent numbers as "0x" prefixed hex strings, not as numbers
 
-# Fixes
+---
+
+# <a id="user-content-v7.0.0-alpha.0-fixes" href="#user-content-v7.0.0-alpha.0-fixes"><img alt="Fixes" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/fixes.svg"></a>
 
 - An actual block size is now return in `eth_getBlock*` calls
 - `eth_sign` returns correct signatures (fixes #556)
 - The underlying state trie is now computed properly (fixes #664)
 
-# New features
+---
+
+# <a id="user-content-v7.0.0-alpha.0-new-features" href="#user-content-v7.0.0-alpha.0-new-features"><img alt="New Features" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/new-features.svg"></a>
 
 - Default `gasLimit` is now 12M
   - note: we've never considered changing the default gasLimit as a semver breaking change, but welcome civil discourse if you disagree.
@@ -347,7 +347,9 @@ Ganache's old database format is incompatible with this version. We've decided t
 - add support for non-executable pending transactions (skipped nonces)
 - add support for replacement transactions (closes #244 #484)
 
-# Known issues:
+---
+
+# <a id="user-content-v7.0.0-alpha.0-known-issues" href="#user-content-v7.0.0-alpha.0-known-issues"><img alt="Known Issues" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/known-issues.svg"></a>
 
 - No Berlin/London support yet. We apologize for being behind on this one. This is our top priority and expect a follow up alpha release within 1 week to add in London and EIP-1559 transaction (type 2) support.
 - Forking is so very slow.
@@ -359,7 +361,9 @@ Ganache's old database format is incompatible with this version. We've decided t
 - Uncles aren't fully supported when forking.
 - Forking may fail in weird and unexpected ways. We need to "error better".
 
-# Future plans:
+---
+
+# <a id="user-content-v7.0.0-alpha.0-future-plans" href="#user-content-v7.0.0-alpha.0-future-plans"><img alt="Future Plans" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/future-plans.svg"></a>
 
 - Support for enabling eligible draft EIPs before they are finalized or considered for inclusion in a hardfork.
 - New hardfork support well in advance of the hardfork launch.
