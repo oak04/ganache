@@ -17,6 +17,8 @@
 
 ---
 
+<p align="center"><img alt="Ganache" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/imgs/ganache-logo-prefer-color-scheme.svg" alt="Ganache" width="160"/></p>
+
 This release is the first alpha release of the new and improved Ganache v7.0.0. We've got a lot in store for you in this breaking-change release, so you'll definitely want read on!
 
 But first, this _is_ an alpha release; even these 7.0.0 release notes are "alpha" and the information here is likely incomplete. There will be bugs and kinks to work out before we ship things off to `beta`, `rc`, and finally to `latest`. You absolutely _should_ use this alpha release, but only to try it out and let us know where it breaks for you!
@@ -25,7 +27,7 @@ In other words: 🔥🐉 Here be dragons 🔥🐉️
 
 ---
 
-# <a id="user-content-v7.0.0-alpha.0-highlights" href="#user-content-v7.0.0-alpha.0-highlights"><img alt="Highlights" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/highlights.svg"></a>
+# <p align="center"><a id="user-content-v7.0.0-alpha.0-highlights" href="#user-content-v7.0.0-alpha.0-highlights"><img alt="Highlights" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/highlights.svg"></a></p>
 
 - We broke Ganache… on purpose. 😅 This is a breaking change release, so you’ll want to pay close attention to these changes! ([skip to the changes](#user-content-breaking-changes))
 
@@ -47,7 +49,7 @@ In other words: 🔥🐉 Here be dragons 🔥🐉️
 
 ---
 
-# <a id="user-content-v7.0.0-alpha.0-breaking-changes" href="#user-content-v7.0.0-alpha.0-breaking-changes"><img alt="Breaking Changes" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/breaking-changes.svg"></a>
+# <p align="center"><a id="user-content-v7.0.0-alpha.0-breaking-changes" href="#user-content-v7.0.0-alpha.0-breaking-changes"><img alt="Breaking Changes" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/breaking-changes.svg"></a></p>
 
 Many changes are "breaking", some more than others. We've put the breaking changes into three categories:
 
@@ -317,7 +319,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 
 ---
 
-# <a id="user-content-v7.0.0-alpha.0-fixes" href="#user-content-v7.0.0-alpha.0-fixes"><img alt="Fixes" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/fixes.svg"></a>
+# <p align="center"><a id="user-content-v7.0.0-alpha.0-fixes" href="#user-content-v7.0.0-alpha.0-fixes"><img alt="Fixes" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/fixes.svg"></a></p>
 
 - An actual block size is now returned in `eth_getBlock*` calls
 - `eth_sign` returns correct signatures (fixes #556)
@@ -325,7 +327,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 
 ---
 
-# <a id="user-content-v7.0.0-alpha.0-new-features" href="#user-content-v7.0.0-alpha.0-new-features"><img alt="New Features" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/new-features.svg"></a>
+# <p align="center"><a id="user-content-v7.0.0-alpha.0-new-features" href="#user-content-v7.0.0-alpha.0-new-features"><img alt="New Features" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/new-features.svg"></a></p>
 
 - Default `gasLimit` is now 12M
   - note: we've never considered changing the default gasLimit as a semver breaking change, but welcome civil discourse if you disagree.
@@ -348,7 +350,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 
 ---
 
-# <a id="user-content-v7.0.0-alpha.0-known-issues" href="#user-content-v7.0.0-alpha.0-known-issues"><img alt="Known Issues" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/known-issues.svg"></a>
+# <p align="center"><a id="user-content-v7.0.0-alpha.0-known-issues" href="#user-content-v7.0.0-alpha.0-known-issues"><img alt="Known Issues" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/known-issues.svg"></a></p>
 
 - No Berlin/London support yet. We apologize for being behind on this one. This is our top priority and expect a follow up alpha release within 1 week to add in London and EIP-1559 transaction (type 2) support.
 - Forking is so very slow.
@@ -362,7 +364,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 
 ---
 
-# <a id="user-content-v7.0.0-alpha.0-future-plans" href="#user-content-v7.0.0-alpha.0-future-plans"><img alt="Future Plans" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/future-plans.svg"></a>
+# <p align="center"><a id="user-content-v7.0.0-alpha.0-future-plans" href="#user-content-v7.0.0-alpha.0-future-plans"><img alt="Future Plans" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/svgs/future-plans.svg"></a></p>
 
 - Support for enabling eligible draft EIPs before they are finalized or considered for inclusion in a hardfork.
 - New hardfork support well in advance of the hardfork launch.
