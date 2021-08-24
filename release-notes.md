@@ -257,7 +257,7 @@ You can replace these queued transactions the same way you'd replace the transac
 
 Currently the eviction mechanism is not tunable, but we plan on exposing options to change the behavior in the near future.
 
-Note: currently, the number of queued transactions do not have an upper bound and you can continue adding new transactions until your process runs of memory. We consider this a memory leak and a bug. Expect this unbounded behavior to change in a patch-level release in the future.
+Note: currently, the number of queued transactions does not have an upper bound and you can continue adding new transactions until your process runs of memory. We consider this a memory leak and a bug. Expect this unbounded behavior to change in a patch-level release in the future.
 
 Note 2: if you use the persisted DB option: we have never stored unexecuted transactions to disk and do not plan to do so. The same is true of these queued transactions.
 
@@ -289,7 +289,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 - `provider.send` isn't pre-bound to the `provider` instance
   (`provider.listen.bind(provider)`)
 - remove `options.keepAliveTimeout`
-- rename provider.`removeAllListeners` to provider.clearListeners
+- rename `provider.removeAllListeners` to `provider.clearListeners`
 - `provider.close` is now `provider.disconnect` and returns promise (no callback argument)
 - return `Cannot wrap a "[a-zA-Z]+" as a json-rpc type` on `evm_revert` error instead of `invalid type` or `false` for invalid snapshot ids
 - change invalid string are now error with `cannot convert string value ${value} into type Quantity; strings must be hex-encoded and prefixed with "0x".`
