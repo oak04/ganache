@@ -1,3 +1,5 @@
+<a id="user-content-v7.0.0-alpha.0-top"></a>
+
 <h4>
   <p align="center">
 		<code>&nbsp;<a href="#user-content-v7.0.0-alpha.0-highlights">Highlights</a>&nbsp;</code>&nbsp;
@@ -17,17 +19,17 @@
 
 ---
 
-<p align="center"><img alt="Ganache" src="https://raw.githubusercontent.com/Trufflesuite/ganache/release-notes-assets/imgs/ganache-logo-prefer-color-scheme.svg" alt="Ganache" width="160"/></p>
+**This release is the first _alpha_ release of the new and improved Ganache v7.0.0. We've got a lot in store for you in this breaking-change release, so you'll definitely want read on!**
 
-This release is the first alpha release of the new and improved Ganache v7.0.0. We've got a lot in store for you in this breaking-change release, so you'll definitely want read on!
-
-But first, this _is_ an alpha release; even these 7.0.0 release notes are "alpha" and the information here is likely incomplete. There will be bugs and kinks to work out before we ship things off to `beta`, `rc`, and finally to `latest`. You absolutely _should_ use this alpha release, but only to try it out and let us know where it breaks for you!
+But first, this _is_ an alpha release; even these 7.0.0 release notes are "alpha" and the information here is likely incomplete. There will be bugs and kinks to work out before we ship things off to `beta`, `rc`, then finally to `latest`. You absolutely _should_ use this alpha release, but only to try it out and let us know where it breaks for you!
 
 In other words: 🔥🐉 Here be dragons 🔥🐉️
 
+<a id="user-content-v7.0.0-alpha.0-highlights"></a>
+
 ---
 
-# <p align="center"><a id="user-content-v7.0.0-alpha.0-highlights" href="#user-content-v7.0.0-alpha.0-highlights"><img alt="Highlights" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/highlights.svg"></a></p>
+# <p align="center"><a href="#user-content-v7.0.0-alpha.0-highlights"><img alt="Highlights" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/highlights.svg"></a></p>
 
 - We broke Ganache… on purpose. 😅 This is a breaking change release, so you’ll want to pay close attention to these changes! ([skip to the changes](#user-content-breaking-changes))
 
@@ -47,11 +49,13 @@ In other words: 🔥🐉 Here be dragons 🔥🐉️
 
 - Speaking of new team members… [we're hiring](https://consensys.net/open-roles/?discipline=32535/)! We’ve got tons of exciting work planned for the future of Ethereum developer tools. Come work with us on making Ethereum more accessible to more developers! Don’t know which positions to apply to? Feel free to reach out to anyone from our [team](https://www.trufflesuite.com/staff) to inquire more about working here at Truffle!
 
----
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-top">back to top</a></sup></p>
 
-# <p align="center"><a id="user-content-v7.0.0-alpha.0-breaking-changes" href="#user-content-v7.0.0-alpha.0-breaking-changes"><img alt="Breaking Changes" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/breaking-changes.svg"></a></p>
+## <a id="user-content-v7.0.0-alpha.0-breaking-changes" ></a>
 
-Many changes are "breaking", some more than others. We've put the breaking changes into three categories:
+# <p align="center"><a href="#user-content-v7.0.0-alpha.0-breaking-changes"><img alt="Breaking Changes" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/breaking-changes.svg"></a></p>
+
+Many changes are "breaking", some more than others. We've organized the breaking changes into three categories:
 
 - [The big ones](#user-content-v7.0.0-alpha.0-the-big-ones)
 - [Other breaking changes, but you probably won't notice or care](#user-content-v7.0.0-alpha.0-other-breaking-changes-but-you-probably-wont-notice-or-care)
@@ -59,7 +63,7 @@ Many changes are "breaking", some more than others. We've put the breaking chang
 
 ## <a id="user-content-v7.0.0-alpha.0-the-big-ones"></a>The big ones
 
-These changes are likely to cause you some trouble if you upgrade blindly. We've ordered them from most-likley to least-likely to cause you trouble:
+These changes are likely to cause you some trouble if you upgrade blindly. We've ordered them from most-likely to least-likely to cause problems:
 
 - [We've renamed our packages](#user-content-v7.0.0-alpha.0-weve-renamed-our-packages)
 - [Transaction hashes are now returned before the transaction receipt is available.
@@ -70,6 +74,8 @@ These changes are likely to cause you some trouble if you upgrade blindly. We've
 - [Non-consecutive transaction nonces no longer throw an error](#user-content-v7.0.0-alpha.0-non-consecutive-transaction-nonces-no-longer-throw-an-error)
 - [We've dropped support for Node v8.x](#user-content-v7.0.0-alpha.0-weve-dropped-support-for-node-v8x)
 - [Old databases from previous versions are not compatible with v7.0.0](#user-content-v7.0.0-alpha.0-old-databases-from-previous-versions-are-not-compatible-with-v700)
+
+<p align="center"><sub>🟀</sub></p>
 
 ### <a id="user-content-v7.0.0-alpha.0-weve-renamed-our-packages"></a>We've renamed our packages
 
@@ -281,6 +287,7 @@ We plan on dropping support for Node v10 within the next few months. Please [fil
 Ganache's old database format is incompatible with this version. We've decided to hold off on building migration tools for this. If you will need a migration tool (you use the `db_path` flag and are unable to recreate you initial state) please [open an issue](https://github.com/trufflesuite/ganache/issues/new) to let us know.
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-breaking-changes">back to breaking</a></sup></p>
 
 ## <a id="user-content-v7.0.0-alpha.0-other-breaking-changes-but-you-probably-wont-notice-or-care"></a>Other breaking changes, but you probably won't notice or care
 
@@ -302,6 +309,8 @@ Ganache's old database format is incompatible with this version. We've decided t
 - `sender doesn't have enough funds to send tx` errors are now prefixed with `VM Exception while processing transaction`
 - `logs` subscription events are emitted before `newHeads` events
 
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-breaking-changes">back to breaking</a></sup></p>
+
 ## <a id="user-content-v7.0.0-alpha.0-technically-bug-fixes-but-these-might-break-your-tests"></a>Technically bug fixes, but these might break your tests:
 
 - blocks are now filled based on actual transaction gas usage, not by the transactions stated `gas`/`gasLimit`
@@ -317,82 +326,107 @@ Ganache's old database format is incompatible with this version. We've decided t
 - transaction ordering from multiple accounts is now ordered by `gasPrice`
 - `options` now always treats strings that represent numbers as "0x" prefixed hex strings, not as numbers
 
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-breaking-changes">back to breaking</a></sup></p>
+
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-top">back to top</a></sup></p>
+
+<a id="user-content-v7.0.0-alpha.0-fixes" href="#user-content-v7.0.0-alpha.0-fixes"></a>
+
 ---
 
-# <p align="center"><a id="user-content-v7.0.0-alpha.0-fixes" href="#user-content-v7.0.0-alpha.0-fixes"><img alt="Fixes" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/fixes.svg"></a></p>
+# <p align="center"><a href="#user-content-v7.0.0-alpha.0-fixes"><img alt="Fixes" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/fixes.svg"></a></p>
 
 - An actual block size is now returned in `eth_getBlock*` calls
 - `eth_sign` returns correct signatures (fixes #556)
 - The underlying state trie is now computed properly (fixes #664)
 
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-top">back to top</a></sup></p>
+
+<a id="user-content-v7.0.0-alpha.0-new-features"></a>
+
 ---
 
-# <p align="center"><a id="user-content-v7.0.0-alpha.0-new-features" href="#user-content-v7.0.0-alpha.0-new-features"><img alt="New Features" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/new-features.svg"></a></p>
+# <p align="center"><a href="#user-content-v7.0.0-alpha.0-new-features"><img alt="New Features" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/new-features.svg"></a></p>
 
-- Default `gasLimit` is now 12M
+- Updated default `gasLimit` to 12M
   - note: we've never considered changing the default gasLimit as a semver breaking change, but welcome civil discourse if you disagree.
-- More forking auth options and configuration. See `ganache --help` for details
-- Namespaces for options arguments. See `ganache --help` for the new option names. Note:
-  - you can still use the "legacy" options
-  - let us know if you love or hate the namespaced options
-- `provider.once(message: string) => Promise<unknown>`
-- New option, `miner.defaultTransactionGasLimit` can be set to `"estimate"` to automatically use a gas estimate instead of the default when gas/gasLimit has been omitted from the transaction.
-- `evm_mine` accepts a new param: `options: {timestamp?: number, blocks: number?}`.
-  - If `options.blocks` is given it mines that number of blocks before returning.
-- add `miner.coinbase` option (closed #201)
-- add `evm_setAccountNonce` (closes #589)
-- add `getOptions()` to provider instance
-- add `getInitialAccounts()` to provider instance
-- `evm_increaseTime` now takes either a number or a JSON-RPC hex-encoded QUANTITY value (closes #118)
-- add new flag `wsBinary` (`true`, `false` "auto", defaults to "auto")
-- add support for non-executable pending transactions (skipped nonces)
-- add support for replacement transactions (closes #244 #484)
+- Added more forking auth options and configuration. See `ganache --help` for details
+- Added namespaces for options arguments. See `ganache --help` for the new option names. Note:
+  - You can still use the "legacy" options.
+  - Let us know if you love or hate the namespaced options.
+- Added `provider.once(message: string) => Promise<unknown>`
+- Add the option `miner.defaultTransactionGasLimit` which can be set to `"estimate"` to automatically use a gas estimate instead of the default when gas/gasLimit has been omitted from the transaction.
+- `evm_mine` now accepts a new param: `options: {timestamp?: number, blocks: number?}`.
+  - If `options.blocks` is given it mines that number of blocks before returning
+- Added `miner.coinbase` option (closed #201).
+- Added `evm_setAccountNonce` (closed #589).
+- Added `getOptions()` to provider instance.
+- Added `getInitialAccounts()` to provider instance.
+- `evm_increaseTime` now takes either a number or a JSON-RPC hex-encoded QUANTITY value (closed #118).
+- Added new flag `wsBinary` (`true`, `false` "auto", defaults to "auto").
+- Added support for non-executable pending transactions (skipped nonces).
+- Added support for replacement transactions (closed #244 #484).
+
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-top">back to top</a></sup></p>
+
+<a id="user-content-v7.0.0-alpha.0-known-issues"></a>
 
 ---
 
-# <p align="center"><a id="user-content-v7.0.0-alpha.0-known-issues" href="#user-content-v7.0.0-alpha.0-known-issues"><img alt="Known Issues" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/known-issues.svg"></a></p>
+# <p align="center"><a href="#user-content-v7.0.0-alpha.0-known-issues"><img alt="Known Issues" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/known-issues.svg"></a></p>
 
 - No Berlin/London support yet. We apologize for being behind on this one. This is our top priority and expect a follow up alpha release within 1 week to add in London and EIP-1559 transaction (type 2) support.
 - Forking is so very slow.
 - Forking's `chainId` shouldn't match the remote chain. We really should use a different `chainId` than the remote, but still be able to contexualize past transactions with their original `chainId`.
 - WebSocket connections are sometimes closed prematurely.
-- Our TypeScript types aren't properly exported yet.
-- Our docker container isn't published yet.
-- We don't return a proper pending block yet.
+- Our TypeScript types aren't properly exported.
+- Our Docker container isn't published.
+- We don't return a proper pending block.
 - Uncles aren't fully supported when forking.
-- Forking may fail in weird and unexpected ways. We need to "error better".
+- Forking may fail in weird and unexpected ways. We need to "error better" here.
+
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-top">back to top</a></sup></p>
+
+<a id="user-content-v7.0.0-alpha.0-future-plans"></a>
 
 ---
 
-# <p align="center"><a id="user-content-v7.0.0-alpha.0-future-plans" href="#user-content-v7.0.0-alpha.0-future-plans"><img alt="Future Plans" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/future-plans.svg"></a></p>
+# <p align="center"><a href="#user-content-v7.0.0-alpha.0-future-plans"><img alt="Future Plans" width="auto" src="https://raw.githubusercontent.com/trufflesuite/ganache/release-notes-assets/title-images/future-plans.svg"></a></p>
 
 - Support for enabling eligible draft EIPs before they are finalized or considered for inclusion in a hardfork.
 - New hardfork support well in advance of the hardfork launch.
-- Add an `eth_createAccessList` method
+- Add an `eth_createAccessList` method.
 - Add in VM events so tools like `solcoverage` will work.
-- Track test performance metrics over time
+- Track test performance metrics over time.
 - Track real world ganache usage (opt-in and anonymized) to better tune performance and drive bug fixes and feature development.
-- Track test coverage
+- Track test coverage.
 - Document how to use ganache in the browser, and what limits it has.
 - `evm_mine` will return the new blocks instead of just `0x0`.
 - We've laid the ground work for additional performance improvements. We expect to see an additional 2-5x speed up for typical testing work loads in the near future.
-- New `evm_setCode` and `evm_setStorageAt` RPC methods
-- `evm_snapshot` ids will be globally unique (unpredictable instead of a counter)
-- Support `eth_getRawTransactionByHash` RPC method
-- Support `debug_accountAt` RPC method
-- Allow "mining" to be disabled on start up
-- Set CLI options via config file, package.json, or ENV vars
+- Add new `evm_setCode` and `evm_setStorageAt` RPC methods.
+- Make `evm_snapshot` ids globally unique (unpredictable instead of a counter).
+- Support `eth_getRawTransactionByHash` RPC method.
+- Support `debug_accountAt` RPC method.
+- Allow "mining" to be disabled on start up.
+- Set CLI options via config file, package.json, or ENV vars.
 - "Flavor" Plugins: We're building support for Layer 2 plugins into ganache so we can start up and manage other chains. e.g., The `ganache filecoin` command will look for the `@ganache/filecoin` package and start up a Filecoin and IPFS server.
-- Multi-chain configurations: you'll be able to start up your project's entire blockchain "ecosystem" from a single ganache command: e.g., `ganache --flavor ethereum --flavor filecoin --flavor optimism`
+- Multi-chain configurations: you'll be able to start up your project's entire blockchain "ecosystem" from a single ganache command: e.g., `ganache --flavor ethereum --flavor filecoin --flavor optimism`.
   - this is where defining your CLI options via JSON config will come in very handy!
 - Infura integration: e.g., `ganache --fork mainnet` to fork off mainnet by authorization against infura to automatically fetch your Infura credentials?
-- CLI interactive/RELP mode
-- CLI dameon mode
+- Create a CLI interactive/RELP mode.
+- Enable a CLI dameon mode.
 
 [Open new issues](https://github.com/trufflesuite/ganache/issues/new) (or [join our team](https://consensys.net/open-roles/?discipline=32535/)) to influence what we implemented and prioritized.
 
+<p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-top">back to top</a></sup></p>
+
 ---
 
-<sub>1. We don't evict excessive pending transactions, unreverted `evm_snapshot` references are only stored in memory, and we allow an unlimited number of wallet accounts to be created and stored in memory via `personal_newAccount`.
-<br> 2. Truffle alum, [Nick Paterno](https://twitter.com/NJPaterno), built our ✨excellent✨ [gas estimation algorithm](https://github.com/trufflesuite/ganache/blob/88822501912ef14c88e4ff1957def79b4845223d/src/chains/ethereum/ethereum/src/helpers/gas-estimator.ts) which required no changes.
+<sub>1. We don't evict excessive pending transactions, unreverted `evm_snapshot` references are only stored in memory, and we allow an unlimited number of wallet accounts to be created and stored in memory via `personal_newAccount`. 2. Truffle alum, [Nick Paterno](https://twitter.com/NJPaterno), built our ✨excellent✨ [gas estimation algorithm](https://github.com/trufflesuite/ganache/blob/88822501912ef14c88e4ff1957def79b4845223d/src/chains/ethereum/ethereum/src/helpers/gas-estimator.ts) which required no changes.
 </sub>
+
+---
+
+<p align="center">
+  💖 The Truffle Team
+</p>
