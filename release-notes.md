@@ -223,30 +223,36 @@ const receipt = await send("eth_getTransactionReceipt", [txHash]);
 Note that `legacyInstamine` + `vmErrorsOnRPCResponse` mode's error messages, from a rejected Promise or the `error` parameter in callback-style, are now formatted as follows:
 
 ```typescript
-{
-   data: Record<string /* transaction hash */, {
-    hash: string;
-    programCounter: number;
-    result: string;
-    reason?: string;
-    message: string;
-  }>
-}
+type RpcError = {
+  data: Record<
+    string /* transaction hash */,
+    {
+      hash: string;
+      programCounter: number;
+      result: string;
+      reason?: string;
+      message: string;
+    }
+  >;
+};
 ```
 
-Previously, these errors were contained within a combination of the `results: {[hash: string]: unknown}` and `hashes: string[]` properties:
+Previously, these errors were contained within a combination of the `results` and `hashes` properties:
 
 ```typescript
 // OLD WAY!
-{
-  results: Record<string /* transaction hash*/, {
-    error: string,
-    program_counter: number,
-    reason?: string
-    return: string
-  }>
-  hashes: string[] // array of transaction hashes
-}
+type RpcError = {
+  results: Record<
+    string /* transaction hash*/,
+    {
+      error: string;
+      program_counter: number;
+      reason?: string;
+      return: string;
+    }
+  >;
+  hashes: string[]; // array of transaction hashes
+};
 ```
 
 Also, only `evm_mine` and `miner_start` return an array for the `data` field, as these are the only places where multiple transactions may be executed³.
@@ -308,7 +314,7 @@ Note 2: if you use the persisted DB option: we have never stored unexecuted tran
 
 ### <a id="user-content-v7.0.0-alpha.0-weve-dropped-support-for-node-v8x"></a>We've dropped support for Node v8.x
 
-Hopefully this won't affect anyone, as it's been unsupported by Node.js for over a year now.
+Hopefully this won't affect your project, as it's been unsupported by Node.js for over a year now.
 
 We plan on dropping support for Node v10 within the next few months. Please [file an issue](https://github.com/trufflesuite/ganache/issues/new?milestone=7.0.0&title=I%20need%20Node.js%20v10) if you think you or your team will be unable to upgrade to Node v12 or later by mid October 2021.
 
