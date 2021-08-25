@@ -237,8 +237,9 @@ Note that `legacyInstamine` + `vmErrorsOnRPCResponse` mode's error messages, fro
 Previously, these errors were contained within a combination of the `results: {[hash: string]: unknown}` and `hashes: string[]` properties:
 
 ```typescript
+// OLD WAY!
 {
-  results: Records<string /* tranasction hash*/, {
+  results: Records<string /* transaction hash*/, {
     error: string,
     program_counter: number,
     reason?: string
@@ -248,7 +249,7 @@ Previously, these errors were contained within a combination of the `results: {[
 }
 ```
 
-Also, only `evm_mine` and `miner_start` return an array for the `data` field, as these are the only places where multiple transactions may be executed (this isn't _entirely_ true when a nonce is skipped and then the skipped nonce is executed, but this behavior wasn't supported in previous versions anyway).
+Also, only `evm_mine` and `miner_start` return an array for the `data` field, as these are the only places where multiple transactions may be executed³.
 
 ### <a id="user-content-v7.0.0-alpha.0-vm-errors-on-rpc-response-now-defaults-to-disabled"></a>VM Errors on RPC Response now defaults to disabled
 
@@ -270,6 +271,8 @@ const provider = Ganache.provider({
   }
 });
 ```
+
+To see why a transaction has failed you can resend the transaction via `eth_call`.
 
 <p align="right"><sup><a href="#user-content-v7.0.0-alpha.0-the-big-ones">back to list</a></sup></p>
 
@@ -348,7 +351,8 @@ Ganache's old database format is incompatible with this version. We've decided t
 - invalid transaction `v` values are no longer allowed
 - previous versions sent utf-8 instead of binary over WebSockets when the request was binary encoded, the encoding is now echoed by default. There is new flag/option to revert behavior: `wsBinary`
 - change error code when subscription requested over http from -32000 to -32004
-- require transaction `value` string to be valid JSON-RPC encoded QUANTITY, e.g., "1000" is no longer valid!
+- require transaction `value` string to be a JSON-RPC encoded hex QUANTITY.
+  - Reason: the string `"1000"` could be the decimal number `1000` or the hex representation of the number `4096`. The JSON-RPC specification requires that we disambiguate by only accepting `"0x"`-prefixed hexadecimal strings.
 - a `result` is no longer present when an `error` is returned (fixes #558)
 - transaction ordering from multiple accounts is now ordered by `gasPrice`
 - `options` now always treats strings that represent numbers as "0x" prefixed hex strings, not as numbers
@@ -449,7 +453,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 
 ---
 
-<sub>1. We don't evict excessive pending transactions, unreverted `evm_snapshot` references are only stored in memory, and we allow an unlimited number of wallet accounts to be created and stored in memory via `personal_newAccount`. 2. Truffle alum, [Nick Paterno](https://twitter.com/NJPaterno), built our ✨excellent✨ [gas estimation algorithm](https://github.com/trufflesuite/ganache/blob/88822501912ef14c88e4ff1957def79b4845223d/src/chains/ethereum/ethereum/src/helpers/gas-estimator.ts) which required no changes.
+<sub>1. We don't evict excessive pending transactions, unreverted `evm_snapshot` references are only stored in memory, and we allow an unlimited number of wallet accounts to be created and stored in memory via `personal_newAccount`. 2. Truffle alum, [Nick Paterno](https://twitter.com/NJPaterno), built our ✨excellent✨ [gas estimation algorithm](https://github.com/trufflesuite/ganache/blob/88822501912ef14c88e4ff1957def79b4845223d/src/chains/ethereum/ethereum/src/helpers/gas-estimator.ts) which required no changes. 3. This isn't _entirely_ true when a nonce is skipped and then the skipped nonce is executed, but this behavior wasn't supported in previous versions anyway.
 </sub>
 
 ---
