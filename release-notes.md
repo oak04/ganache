@@ -19,7 +19,7 @@
 
 ---
 
-**This release is the first _alpha_ release of the new and improved Ganache v7.0.0. We've got a lot in store for you in this breaking-change release, so you'll definitely want to read on!**
+**This `BREAKING` release is the first _alpha_ release of the new and improved Ganache v7.0.0. We've got a lot in store for you in this breaking-change release, so you'll definitely want to read on!**
 
 But first, this _is_ an alpha release; even these 7.0.0 release notes are "alpha" and the information here is likely incomplete. There will be bugs and kinks to work out before we ship things off to `beta`, `rc`, then finally to `latest`. You absolutely _should_ use this alpha release, but only to try it out and let us know where it breaks for you!
 
@@ -148,7 +148,7 @@ module.exports = {
 
 _However, even with WebSockets enabled, some versions of these libraries, including `truffle`, do not always set up their subscription events fast enough. When this happens the client will miss the notification from Ganache and fall back to polling for changes (slow). We're working with libraries to fix this behavior, but in the meantime you might want to go against our advice and enable `legacyInstamine` mode, as described below, when starting Ganache._
 
-If you have test code similar to the `BAD CODE THAT USED TO WORK` above you'll need to make some changes.
+If you have test code similar to the `BAD CODE THAT USED TO WORK` example above you'll need to make some changes.
 
 The easy, _but not recommended way_ is to enable `legacyInstamine` mode in your start up options:
 
@@ -239,7 +239,7 @@ Previously, these errors were contained within a combination of the `results: {[
 ```typescript
 // OLD WAY!
 {
-  results: Records<string /* transaction hash*/, {
+  results: Record<string /* transaction hash*/, {
     error: string,
     program_counter: number,
     reason?: string
@@ -258,7 +258,7 @@ Ganache used to return error messages alongside the result for `eth_sendTransact
 You can still enable this feature, but to do so you'll need to also enable `legacyInstamine` mode, as described above:
 
 ```console
-$ ganache --miner.legacyInstamine true --miner.vmErrorsOnRPCResponse true
+$ ganache --miner.legacyInstamine true --chain.vmErrorsOnRPCResponse true
 ```
 
 or
@@ -266,7 +266,9 @@ or
 ```javascript
 const provider = Ganache.provider({
   miner: {
-    legacyInstamine: true,
+    legacyInstamine: true
+  },
+  chain: {
     vmErrorsOnRPCResponse: true
   }
 });
