@@ -33,17 +33,17 @@ In other words: 🔥🐉 Here be dragons 🔥🐉️
 
 - We broke Ganache… on purpose. 😅 This is a breaking change release, so you’ll want to pay close attention to these changes! ([skip to the broken-stuff](#user-content-v7.0.0-alpha.0-breaking-changes))
 
-- It's much faster and more memory efficient. We've seen `truffle test` execution times for real world repositories run in 1/3 the time. CLI initialization is ~300% faster. You can now run ganache indefinitely without ever-increasing memory usage (with a few _very rare_ exceptions¹ we consider to be bugs that will be fixed in a later release).
+- It's much faster and more memory efficient. We've seen `truffle test` execution times for real world repositories run in 1/3 the time. CLI initialization is ~300% faster. You can now run Ganache indefinitely without ever-increasing memory usage (with a few _very rare_ exceptions¹ we consider to be bugs that will be fixed in a later release).
 
 - The `ganache-core` and `ganache-cli` packages you know and love have been (almost²) completely rewritten from the ground up in TypeScript.
 
 - The `ganache-core` and `ganache-cli` npm packages have been merged into a single `ganache` package. We’ll continue to publish to the old core and cli npm packages for the time being, but you’ll want to switch over to the new [`ganache` npm package](https://www.npmjs.com/package/ganache) soon, or you’ll start seeing a deprecation notice upon installation.
 
+- The `ganache-core` and `ganache-cli` GitHub repositories have been merged together and moved to [`ganache`](https://github.com/trufflesuite/ganache). Head over to the new repo and show it some love by smashing that ⭐ button!
+
 - The docker container will be moving to https://hub.docker.com/r/trufflesuite/ganache
 
 - Ganache now works in the browser and we are working on building interactive browser-based documentation. We've built a [prototype implementation](https://trufflesuite.github.io/ganache/) and are working on optimizing and polishing the experience.
-
-- The `ganache-core` and `ganache-cli` GitHub repositories have been merged together and moved to [`ganache`](https://github.com/trufflesuite/ganache). Head over to the new repo and show it some love by smashing that ⭐ button!
 
 - For the last year Ganache has been mostly maintained by one person ([me](https://github.com/davidmurdoch)). But now there are a whole two of us! We welcomed [Micaiah Reid](https://github.com/MicaiahReid), formerly of Lockheed Martin, to the team in May! Go give him a follow!
 
@@ -146,7 +146,7 @@ module.exports = {
     /* … */
 ```
 
-_However, even with WebSockets enabled, some versions of these libraries, including `truffle`, do not always set up their subscription events fast enough. When this happens the client will miss the notification from ganache and fall back to polling for changes (slow). We're working with libraries to fix this behavior, but in the meantime you might want to go against our advice and enable `legacyInstamine` mode, as described below, when starting ganache._
+_However, even with WebSockets enabled, some versions of these libraries, including `truffle`, do not always set up their subscription events fast enough. When this happens the client will miss the notification from Ganache and fall back to polling for changes (slow). We're working with libraries to fix this behavior, but in the meantime you might want to go against our advice and enable `legacyInstamine` mode, as described below, when starting Ganache._
 
 If you have test code similar to the `BAD CODE THAT USED TO WORK` above you'll need to make some changes.
 
@@ -220,7 +220,35 @@ const receipt = await send("eth_getTransactionReceipt", [txHash]);
 
 `provider.once` is currently non-standard and should only be used in controlled environments where you are the only one interacting with the node and are sending transactions sequentially.
 
-It is important to note that in `legacyInstamine` mode error messages are returned on the result's `data` field now. Previously, they were contained within a combination of the `results: {[hash: string]: unknown}` and `hashes: string[]` properties. Also, only `evm_mine` and `miner_start` return an array for the `data` field, as these are the only places where multiple transactions may be executed (this isn't _entirely_ true when a nonce is skipped and then the skipped nonce is executed, but this behavior wasn't supported in previous versions anyway).
+Note that `legacyInstamine` + `vmErrorsOnRPCResponse` mode's error messages, from a rejected Promise or the `error` parameter in callback-style, are now formatted as follows:
+
+```typescript
+{
+   data: Record<string /* transaction hash */, {
+    hash: string;
+    programCounter: number;
+    result: string;
+    reason?: string;
+    message: string;
+  }>
+}
+```
+
+Previously, these errors were contained within a combination of the `results: {[hash: string]: unknown}` and `hashes: string[]` properties:
+
+```typescript
+{
+  results: Records<string /* tranasction hash*/, {
+    error: string,
+    program_counter: number,
+    reason?: string
+    return: string
+  }>
+  hashes: string[] // array of transaction hashes
+}
+```
+
+Also, only `evm_mine` and `miner_start` return an array for the `data` field, as these are the only places where multiple transactions may be executed (this isn't _entirely_ true when a nonce is skipped and then the skipped nonce is executed, but this behavior wasn't supported in previous versions anyway).
 
 ### <a id="user-content-v7.0.0-alpha.0-vm-errors-on-rpc-response-now-defaults-to-disabled"></a>VM Errors on RPC Response now defaults to disabled
 
@@ -362,7 +390,7 @@ Ganache's old database format is incompatible with this version. We've decided t
 - Added `getOptions()` to provider instance.
 - Added `getInitialAccounts()` to provider instance.
 - `evm_increaseTime` now takes either a number or a JSON-RPC hex-encoded QUANTITY value (closed #118).
-- Added new flag `wsBinary` (`true`, `false` "auto", defaults to "auto").
+- Added new flag, `wsBinary` (`true`, `false`, or "auto", defaults to "auto").
 - Added support for non-executable pending transactions (skipped nonces).
 - Added support for replacement transactions (closed #244 #484).
 
@@ -397,9 +425,9 @@ Ganache's old database format is incompatible with this version. We've decided t
 - Add an `eth_createAccessList` method.
 - Add in VM events so tools like `solcoverage` will work.
 - Track test performance metrics over time.
-- Track real world ganache usage (opt-in and anonymized) to better tune performance and drive bug fixes and feature development.
+- Track real world Ganache usage (opt-in and anonymized) to better tune performance and drive bug fixes and feature development.
 - Track test coverage.
-- Document how to use ganache in the browser, and what limits it has.
+- Document how to use Ganache in the browser, and what limits it has.
 - `evm_mine` will return the new blocks instead of just `0x0`.
 - We've laid the groundwork for additional performance improvements. We expect to see an additional 2-5x speed up for typical testing work loads in the near future.
 - Add new `evm_setCode` and `evm_setStorageAt` RPC methods.
@@ -408,10 +436,10 @@ Ganache's old database format is incompatible with this version. We've decided t
 - Support `debug_accountAt` RPC method.
 - Allow "mining" to be disabled on start up.
 - Set CLI options via config file, package.json, or ENV vars.
-- "Flavor" Plugins: We're building support for Layer 2 plugins into ganache so we can start up and manage other chains. e.g., The `ganache filecoin` command will look for the `@ganache/filecoin` package and start up a Filecoin and IPFS server.
+- "Flavor" Plugins: We're building support for Layer 2 plugins into Ganache so we can start up and manage other chains. e.g., The `ganache filecoin` command will look for the `@ganache/filecoin` package and start up a Filecoin and IPFS server.
 - Multi-chain configurations: you'll be able to start up your project's entire blockchain "ecosystem" from a single ganache command: e.g., `ganache --flavor ethereum --flavor filecoin --flavor optimism`.
   - this is where defining your CLI options via JSON config will come in very handy!
-- Infura integration: e.g., `ganache --fork mainnet` to fork off mainnet by authorization against infura to automatically fetch your Infura credentials?
+- Integrate with Infura: e.g., `ganache --fork mainnet` to fork mainnet via your own Infura account.
 - Create a CLI interactive/RELP mode.
 - Enable a CLI daemon mode.
 
