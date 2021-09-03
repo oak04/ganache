@@ -24,7 +24,7 @@ import "@ganache/options";
 import { Executor } from "@ganache/utils";
 
 const NEED_HELP = "Need help? Reach out to the Truffle community at";
-const COMMUNITY_LINK = "https://trfl.co/support";
+const COMMUNITY_LINK = "https://trfl.io/support";
 
 export const EthereumFlavorName = "ethereum";
 export const FilecoinFlavorName = "filecoin";

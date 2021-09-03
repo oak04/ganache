@@ -194,7 +194,7 @@ New RPC documentation coming soon! See https://github.com/trufflesuite/ganache/t
 
 ## Community
 
-- [Discord](https://trfl.co/truffle-community)
+- [Discord](https://trfl.io/community)
 - [Reddit](https://www.reddit.com/r/Truffle/)
 
 ## Contributing
